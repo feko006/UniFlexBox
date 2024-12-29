@@ -1,15 +1,12 @@
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 namespace Feko.UniFlexBox
 {
     public class UniFlexBoxItem : UIBehaviour, ILayoutElement, ILayoutIgnorer
     {
-        [SerializeField] 
-        private bool m_IgnoreLayout = false;
+        [SerializeField] private bool m_IgnoreLayout = false;
 
         public bool ignoreLayout
         {
@@ -17,8 +14,7 @@ namespace Feko.UniFlexBox
             set { SetProperty(ref m_IgnoreLayout, value); }
         }
 
-        [SerializeField] 
-        public int _order;
+        [SerializeField] public int _order;
 
         public int Order
         {
@@ -26,8 +22,7 @@ namespace Feko.UniFlexBox
             set { _order = value; }
         }
 
-        [SerializeField]
-        public Flex _flex;
+        [SerializeField] public Flex _flex;
 
         public Flex Flex
         {
@@ -35,8 +30,7 @@ namespace Feko.UniFlexBox
             set { _flex = value; }
         }
 
-        [SerializeField]
-        public float _flexGrow;
+        [SerializeField] public float _flexGrow;
 
         public float FlexGrow
         {
@@ -44,8 +38,7 @@ namespace Feko.UniFlexBox
             set { _flexGrow = value; }
         }
 
-        [SerializeField]
-        public float _flexShrink;
+        [SerializeField] public float _flexShrink;
 
         public float FlexShrink
         {
@@ -53,8 +46,7 @@ namespace Feko.UniFlexBox
             set { _flexShrink = value; }
         }
 
-        [Tooltip("The base size in the dimension the flex layout is oriented.")]
-        [SerializeField]
+        [Tooltip("The base size in the dimension the flex layout is oriented.")] [SerializeField]
         public float _flexBasis;
 
         public float FlexBasis
@@ -63,8 +55,7 @@ namespace Feko.UniFlexBox
             set { _flexBasis = value; }
         }
 
-        [SerializeField] 
-        public AlignSelf _alignSelf;
+        [SerializeField] public AlignSelf _alignSelf;
 
         public AlignSelf AlignSelf
         {
@@ -72,19 +63,20 @@ namespace Feko.UniFlexBox
             set { _alignSelf = value; }
         }
 
-        [Header("Constraints")] 
-        [Tooltip("If defined, overrides the rest of the width constraints.")]
-        [SerializeField]
+        [Header("Constraints")] [Tooltip("If defined, overrides the rest of the width constraints.")] [SerializeField]
         private bool _wrapWidth;
 
         public bool WrapWidth
         {
             get { return _wrapWidth; }
-            set { SetProperty(ref _wrapWidth, value); ;}
+            set
+            {
+                SetProperty(ref _wrapWidth, value);
+                ;
+            }
         }
-        
-        [Tooltip("If defined, overrides the minimum and maximum width constraints.")]
-        [SerializeField]
+
+        [Tooltip("If defined, overrides the minimum and maximum width constraints.")] [SerializeField]
         private float _definiteWidth;
 
         public float DefiniteWidth
@@ -93,8 +85,7 @@ namespace Feko.UniFlexBox
             set { SetProperty(ref _definiteWidth, value); }
         }
 
-        [SerializeField]
-        private float _minimumWidth;
+        [SerializeField] private float _minimumWidth;
 
         public float MinimumWidth
         {
@@ -102,8 +93,7 @@ namespace Feko.UniFlexBox
             set { SetProperty(ref _minimumWidth, value); }
         }
 
-        [SerializeField]
-        private float _maximumWidth;
+        [SerializeField] private float _maximumWidth;
 
         public float MaximumWidth
         {
@@ -111,18 +101,20 @@ namespace Feko.UniFlexBox
             set { SetProperty(ref _maximumWidth, value); }
         }
 
-        [Tooltip("If defined, overrides the rest of the width constraints.")]
-        [SerializeField]
+        [Tooltip("If defined, overrides the rest of the width constraints.")] [SerializeField]
         private bool _wrapHeight;
 
         public bool WrapHeight
         {
             get { return _wrapHeight; }
-            set { SetProperty(ref _wrapHeight, value); ;}
+            set
+            {
+                SetProperty(ref _wrapHeight, value);
+                ;
+            }
         }
 
-        [Tooltip("If defined, overrides the minimum and maximum height constraints.")]
-        [SerializeField]
+        [Tooltip("If defined, overrides the minimum and maximum height constraints.")] [SerializeField]
         private float _definiteHeight;
 
         public float DefiniteHeight
@@ -131,8 +123,7 @@ namespace Feko.UniFlexBox
             set { SetProperty(ref _definiteHeight, value); }
         }
 
-        [SerializeField]
-        private float _minimumHeight;
+        [SerializeField] private float _minimumHeight;
 
         public float MinimumHeight
         {
@@ -140,17 +131,15 @@ namespace Feko.UniFlexBox
             set { SetProperty(ref _minimumHeight, value); }
         }
 
-        [SerializeField]
-        private float _maximumHeight;
+        [SerializeField] private float _maximumHeight;
 
         public float MaximumHeight
         {
             get { return _maximumHeight; }
             set { SetProperty(ref _maximumHeight, value); }
         }
-        
-        [SerializeField]
-        private RectOffset _padding;
+
+        [SerializeField] private RectOffset _padding;
 
         public RectOffset Padding
         {
@@ -166,9 +155,13 @@ namespace Feko.UniFlexBox
         public float flexibleHeight { get; private set; }
         public int layoutPriority { get; private set; }
 
-        public virtual void CalculateLayoutInputHorizontal() { }
+        public virtual void CalculateLayoutInputHorizontal()
+        {
+        }
 
-        public virtual void CalculateLayoutInputVertical() { }
+        public virtual void CalculateLayoutInputVertical()
+        {
+        }
 
         protected override void OnEnable()
         {

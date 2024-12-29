@@ -1,11 +1,11 @@
 namespace Feko.UniFlexBox
 {
-    public enum JustifyContent {
-	FlexStart,
-	FlexEnd,
-	Center,
-	SpaceBetween,
-	SpaceAround
+    public enum JustifyContent
+    {
+        FlexStart,
+        FlexEnd,
+        Center,
+        SpaceBetween,
+        SpaceAround
     }
 }
-

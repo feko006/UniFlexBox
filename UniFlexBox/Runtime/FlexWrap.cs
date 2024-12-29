@@ -1,9 +1,9 @@
 namespace Feko.UniFlexBox
 {
-    public enum FlexWrap {
-	NoWrap,
-	Wrap,
-	WrapReverse
+    public enum FlexWrap
+    {
+        NoWrap,
+        Wrap,
+        WrapReverse
     }
 }
-

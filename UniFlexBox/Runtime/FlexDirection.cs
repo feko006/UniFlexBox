@@ -1,10 +1,10 @@
 namespace Feko.UniFlexBox
 {
-    public enum FlexDirection {
-	Row,
-	RowReverse,
-	Column,
-	ColumnReverse
+    public enum FlexDirection
+    {
+        Column,
+        ColumnReverse,
+        Row,
+        RowReverse
     }
 }
-

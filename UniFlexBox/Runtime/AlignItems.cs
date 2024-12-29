@@ -1,11 +1,15 @@
 namespace Feko.UniFlexBox
 {
-    public enum AlignItems {
-	FlexStart,
-	FlexEnd,
-	Center,
-	Baseline,
-	Stretch
+    public enum AlignItems
+    {
+        Auto,
+        FlexStart,
+        Center,
+        FlexEnd,
+        Stretch,
+        Baseline,
+        SpaceBetween,
+        SpaceAround,
+        SpaceEvenly
     }
 }
-
