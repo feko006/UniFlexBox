@@ -31,9 +31,24 @@ void setNodeWidth(const YGNodeRef node, const float width)
     YGNodeStyleSetWidth(node, width);
 }
 
+void setNodeMinWidth(const YGNodeRef node, const float width)
+{
+    YGNodeStyleSetMinWidth(node, width);
+}
+
+void setNodeMaxWidth(const YGNodeRef node, const float width)
+{
+    YGNodeStyleSetMaxWidth(node, width);
+}
+
 void setNodeHeight(const YGNodeRef node, const float height)
 {
     YGNodeStyleSetHeight(node, height);
+}
+
+void setNodeMinHeight(const YGNodeRef node, const float height)
+{
+    YGNodeStyleSetMinHeight(node, height);
 }
 
 void setFlexDirection(const YGNodeRef node, const int flexDirection)
@@ -44,6 +59,11 @@ void setFlexDirection(const YGNodeRef node, const int flexDirection)
 void setAlignItems(const YGNodeRef node, const int alignItems)
 {
     YGNodeStyleSetAlignItems(node, static_cast<YGAlign>(alignItems));
+}
+
+void setJustifyContent(const YGNodeRef node, const int justifyContent)
+{
+    YGNodeStyleSetJustifyContent(node, static_cast<YGJustify>(justifyContent));
 }
 
 float getNodeLeft(const YGNodeRef node)

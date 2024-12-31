@@ -10,7 +10,7 @@ namespace Feko.UniFlexBox
 {
     public class UniFlexBoxLayoutGroup : UIBehaviour, ILayoutElement, ILayoutGroup
     {
-        [Header("Flex Properties")] [SerializeField]
+        [SerializeField]
         private FlexDirection _flexDirection;
 
         public FlexDirection FlexDirection
@@ -19,23 +19,8 @@ namespace Feko.UniFlexBox
             set { SetProperty(ref _flexDirection, value); }
         }
 
-        [SerializeField] private FlexWrap _flexWrap;
-
-        public FlexWrap FlexWrap
-        {
-            get { return _flexWrap; }
-            set { SetProperty(ref _flexWrap, value); }
-        }
-
-        [SerializeField] private JustifyContent _justifyContent;
-
-        public JustifyContent JustifyContent
-        {
-            get { return _justifyContent; }
-            set { SetProperty(ref _justifyContent, value); }
-        }
-
-        [SerializeField] private AlignItems _alignItems;
+        [SerializeField]
+        private AlignItems _alignItems;
 
         public AlignItems AlignItems
         {
@@ -43,7 +28,53 @@ namespace Feko.UniFlexBox
             set { SetProperty(ref _alignItems, value); }
         }
 
-        [SerializeField] private AlignContent _alignContent;
+        [SerializeField]
+        private JustifyContent _justifyContent;
+
+        public JustifyContent JustifyContent
+        {
+            get { return _justifyContent; }
+            set { SetProperty(ref _justifyContent, value); }
+        }
+
+        [SerializeField]
+        private DimensionProperties _minimumWidth;
+
+        public DimensionProperties MinimumWidth
+        {
+            get { return _minimumWidth; }
+            set { SetProperty(ref _minimumWidth, value); }
+        }
+
+        [SerializeField]
+        private DimensionProperties _maximumWidth;
+
+        public DimensionProperties MaximumWidth
+        {
+            get { return _maximumWidth; }
+            set { SetProperty(ref _maximumWidth, value); }
+        }
+
+        [SerializeField]
+        private DimensionProperties _minimumHeight;
+
+        public DimensionProperties MinimumHeight
+        {
+            get { return _minimumHeight; }
+            set { SetProperty(ref _minimumHeight, value); }
+        }
+
+        [SerializeField]
+        private DimensionProperties _maximumHeight;
+
+        public DimensionProperties MaximumHeight
+        {
+            get { return _maximumHeight; }
+            set { SetProperty(ref _maximumHeight, value); }
+        }
+
+        [SerializeField]
+        private AlignContent _alignContent;
 
         public AlignContent AlignContent
         {
@@ -62,23 +93,8 @@ namespace Feko.UniFlexBox
             set { SetProperty(ref _definiteWidth, value); }
         }
 
-        [SerializeField] private float _minimumWidth;
-
-        public float MinimumWidth
-        {
-            get { return _minimumWidth; }
-            set { SetProperty(ref _minimumWidth, value); }
-        }
-
-        [SerializeField] private float _maximumWidth;
-
-        public float MaximumWidth
-        {
-            get { return _maximumWidth; }
-            set { SetProperty(ref _maximumWidth, value); }
-        }
-
-        [SerializeField] private RectOffset _padding;
+        [SerializeField]
+        private RectOffset _padding;
 
         public RectOffset Padding
         {
@@ -86,7 +102,8 @@ namespace Feko.UniFlexBox
             set { SetProperty(ref _padding, value); }
         }
 
-        [Tooltip("If defined, overrides the minimum and maximum height constraints.")] [SerializeField]
+        [Tooltip("If defined, overrides the minimum and maximum height constraints.")]
+        [SerializeField]
         private float _definiteHeight;
 
         public float DefiniteHeight
@@ -95,33 +112,18 @@ namespace Feko.UniFlexBox
             set { SetProperty(ref _definiteHeight, value); }
         }
 
-        [SerializeField] private float _minimumHeight;
-
-        public float MinimumHeight
-        {
-            get { return _minimumHeight; }
-            set { SetProperty(ref _minimumHeight, value); }
-        }
-
-        [SerializeField] private float _maximumHeight;
-
-        public float MaximumHeight
-        {
-            get { return _maximumHeight; }
-            set { SetProperty(ref _maximumHeight, value); }
-        }
-
-        public float minWidth { get; private set; }
+        public float minWidth => _minimumWidth.Size;
         public float preferredWidth { get; private set; }
         public float flexibleWidth { get; private set; }
-        public float minHeight { get; private set; }
+        public float minHeight => _minimumHeight.Size;
         public float preferredHeight { get; private set; }
         public float flexibleHeight { get; private set; }
         public int layoutPriority { get; private set; }
 
         private readonly List<RectTransform> _rectChildren = new List<RectTransform>();
 
-        [System.NonSerialized] private RectTransform _rect;
+        [NonSerialized]
+        private RectTransform _rect;
 
         private RectTransform _rectTransform
         {
@@ -148,8 +150,14 @@ namespace Feko.UniFlexBox
             {
                 _rootYogaNode = UniFlexBoxNative.createNewNode();
             }
+
             UniFlexBoxNative.setFlexDirection(_rootYogaNode, (int)_flexDirection);
             UniFlexBoxNative.setAlignItems(_rootYogaNode, (int)_alignItems);
+            UniFlexBoxNative.setJustifyContent(_rootYogaNode, (int)_justifyContent);
+            ApplyMinimumWidthDimensions(_rootYogaNode, _minimumWidth);
+            ApplyMaximumWidthDimensions(_rootYogaNode, _maximumWidth);
+            ApplyMinimumHeightDimensions(_rootYogaNode, _minimumHeight);
+            ApplyMinimumHeightDimensions(_rootYogaNode, _maximumHeight);
 
             UniFlexBoxNative.removeAllChildren(_rootYogaNode);
             var activeNodes = new HashSet<IntPtr>();
@@ -183,9 +191,11 @@ namespace Feko.UniFlexBox
             }
 
             return;
-            float[] containerWidth = CalculateContainerSize(_definiteWidth, _minimumWidth, ref _maximumWidth, 0);
+            float[] containerWidth =
+                CalculateContainerSize(_definiteWidth, _minimumWidth.Size, ref _maximumWidth.Size, 0);
             float[] availableHorizontalSpace = CalculateAvailableSpace(containerWidth, 0);
-            float[] containerHeight = CalculateContainerSize(_definiteHeight, _minimumHeight, ref _maximumHeight, 1);
+            float[] containerHeight =
+                CalculateContainerSize(_definiteHeight, _minimumHeight.Size, ref _maximumHeight.Size, 1);
             float[] availableVerticalSpace = CalculateAvailableSpace(containerHeight, 1);
 
             Debug.Log(
@@ -222,6 +232,46 @@ namespace Feko.UniFlexBox
                 {
                 }
             }
+        }
+
+        private void ApplyMinimumWidthDimensions(IntPtr node, DimensionProperties minimumWidth)
+        {
+            if (!minimumWidth.Use)
+            {
+                return;
+            }
+
+            UniFlexBoxNative.setNodeMinWidth(_rootYogaNode, minimumWidth.Size);
+        }
+
+        private void ApplyMaximumWidthDimensions(IntPtr node, DimensionProperties maximumWidth)
+        {
+            if (!maximumWidth.Use)
+            {
+                return;
+            }
+
+            UniFlexBoxNative.setNodeMaxWidth(_rootYogaNode, maximumWidth.Size);
+        }
+
+        private void ApplyMinimumHeightDimensions(IntPtr node, DimensionProperties minimumHeight)
+        {
+            if (!minimumHeight.Use)
+            {
+                return;
+            }
+
+            UniFlexBoxNative.setNodeMinHeight(_rootYogaNode, minimumHeight.Size);
+        }
+
+        private void ApplyMaximumHeightDimensions(IntPtr node, DimensionProperties maximumHeight)
+        {
+            if (!maximumHeight.Use)
+            {
+                return;
+            }
+
+            UniFlexBoxNative.setNodeMaxHeight(_rootYogaNode, maximumHeight.Size);
         }
 
         public void ApplyLayout(IntPtr yogaNode, RectTransform uiElement, RectTransform parent)

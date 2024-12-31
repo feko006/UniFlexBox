@@ -24,13 +24,28 @@ namespace Feko.UniFlexBox
         public static extern void setNodeWidth(IntPtr node, float width);
 
         [DllImport("uniflexbox-native")]
+        public static extern void setNodeMinWidth(IntPtr node, float width);
+
+        [DllImport("uniflexbox-native")]
+        public static extern void setNodeMaxWidth(IntPtr node, float width);
+
+        [DllImport("uniflexbox-native")]
         public static extern void setNodeHeight(IntPtr node, float height);
+
+        [DllImport("uniflexbox-native")]
+        public static extern void setNodeMinHeight(IntPtr node, float height);
+
+        [DllImport("uniflexbox-native")]
+        public static extern void setNodeMaxHeight(IntPtr node, float height);
 
         [DllImport("uniflexbox-native")]
         public static extern void setFlexDirection(IntPtr node, int flexDirection);
 
         [DllImport("uniflexbox-native")]
         public static extern void setAlignItems(IntPtr node, int alignItems);
+
+        [DllImport("uniflexbox-native")]
+        public static extern void setJustifyContent(IntPtr rootYogaNode, int justifyContent);
 
         [DllImport("uniflexbox-native")]
         public static extern float getNodeLeft(IntPtr node);
