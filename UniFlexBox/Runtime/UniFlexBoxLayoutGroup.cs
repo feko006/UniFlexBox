@@ -184,10 +184,10 @@ namespace Feko.UniFlexBox
 
             UniFlexBoxNative.calculateLayout(_rootYogaNode);
 
-            ApplyLayout(_rootYogaNode, _rectTransform, _rectTransform.parent as RectTransform);
+            ApplyNodeValuesToLayoutGroup();
             foreach (var child in _rectChildren)
             {
-                ApplyLayout(_childNodes[child], child, _rectTransform);
+                ApplyNodeValuesToLayoutElement(_childNodes[child], child);
             }
 
             return;
@@ -274,24 +274,23 @@ namespace Feko.UniFlexBox
             UniFlexBoxNative.setNodeMaxHeight(_rootYogaNode, maximumHeight.Size);
         }
 
-        public void ApplyLayout(IntPtr yogaNode, RectTransform uiElement, RectTransform parent)
+        private void ApplyNodeValuesToLayoutGroup()
         {
-            // Retrieve layout properties from the YogaNode
+            float width = UniFlexBoxNative.getNodeWidth(_rootYogaNode);
+            float height = UniFlexBoxNative.getNodeHeight(_rootYogaNode);
+            _rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, width);
+            _rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, height);
+        }
+
+        private void ApplyNodeValuesToLayoutElement(IntPtr yogaNode, RectTransform uiElement)
+        {
             float x = UniFlexBoxNative.getNodeLeft(yogaNode);
             float y = UniFlexBoxNative.getNodeTop(yogaNode);
             float width = UniFlexBoxNative.getNodeWidth(yogaNode);
             float height = UniFlexBoxNative.getNodeHeight(yogaNode);
 
-            // Get the parent size for positioning conversion
-            float parentHeight = parent.rect.height;
-
-            // Adjust RectTransform
-            uiElement.anchorMin = Vector2.zero;
-            uiElement.anchorMax = Vector2.zero;
-            uiElement.pivot = Vector2.zero;
-            uiElement.anchoredPosition =
-                new Vector2(x, parentHeight - y - height); // Convert Yoga top-left to Unity bottom-left
-            uiElement.sizeDelta = new Vector2(width, height); // Set width and height
+            uiElement.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Left, x, width);
+            uiElement.SetInsetAndSizeFromParentEdge(RectTransform.Edge.Top, y, height);
         }
 
         public void CalculateLayoutInputVertical()
