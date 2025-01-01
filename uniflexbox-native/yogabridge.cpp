@@ -28,27 +28,32 @@ void calculateLayout(const YGNodeRef node)
 
 void setNodeWidth(const YGNodeRef node, const float width)
 {
-    YGNodeStyleSetWidth(node, width);
+    YGNodeStyleSetWidth(node, width >= 0 ? width : YGUndefined);
 }
 
 void setNodeMinWidth(const YGNodeRef node, const float width)
 {
-    YGNodeStyleSetMinWidth(node, width);
+    YGNodeStyleSetMinWidth(node, width >= 0 ? width : YGUndefined);
 }
 
 void setNodeMaxWidth(const YGNodeRef node, const float width)
 {
-    YGNodeStyleSetMaxWidth(node, width);
+    YGNodeStyleSetMaxWidth(node, width >= 0 ? width : YGUndefined);
 }
 
 void setNodeHeight(const YGNodeRef node, const float height)
 {
-    YGNodeStyleSetHeight(node, height);
+    YGNodeStyleSetHeight(node, height >= 0 ? height : YGUndefined);
 }
 
 void setNodeMinHeight(const YGNodeRef node, const float height)
 {
-    YGNodeStyleSetMinHeight(node, height);
+    YGNodeStyleSetMinHeight(node, height >= 0 ? height : YGUndefined);
+}
+
+void setNodeMaxHeight(const YGNodeRef node, const float height)
+{
+    YGNodeStyleSetMaxHeight(node, height >= 0 ? height : YGUndefined);
 }
 
 void setFlexDirection(const YGNodeRef node, const int flexDirection)
