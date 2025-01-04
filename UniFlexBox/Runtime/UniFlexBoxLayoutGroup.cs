@@ -38,57 +38,12 @@ namespace Feko.UniFlexBox
         }
 
         [SerializeField]
-        private DimensionProperties _minimumWidth;
+        private DimensionConstraint[] _dimensionConstraints;
 
-        public DimensionProperties MinimumWidth
+        public DimensionConstraint[] DimensionConstraints
         {
-            get => _minimumWidth;
-            set => SetProperty(ref _minimumWidth, value);
-        }
-
-        [SerializeField]
-        private DimensionProperties _exactWidth;
-
-        public DimensionProperties ExactWidth
-        {
-            get => _exactWidth;
-            set => SetProperty(ref _exactWidth, value);
-        }
-
-        [SerializeField]
-        private DimensionProperties _maximumWidth;
-
-        public DimensionProperties MaximumWidth
-        {
-            get => _maximumWidth;
-            set => SetProperty(ref _maximumWidth, value);
-        }
-
-        [SerializeField]
-        private DimensionProperties _minimumHeight;
-
-        public DimensionProperties MinimumHeight
-        {
-            get => _minimumHeight;
-            set => SetProperty(ref _minimumHeight, value);
-        }
-
-        [SerializeField]
-        private DimensionProperties _exactHeight;
-
-        public DimensionProperties ExactHeight
-        {
-            get => _exactHeight;
-            set => SetProperty(ref _exactHeight, value);
-        }
-
-        [SerializeField]
-        private DimensionProperties _maximumHeight;
-
-        public DimensionProperties MaximumHeight
-        {
-            get => _maximumHeight;
-            set => SetProperty(ref _maximumHeight, value);
+            get => _dimensionConstraints;
+            set => SetProperty(ref _dimensionConstraints, value);
         }
 
         [SerializeField]
@@ -109,10 +64,19 @@ namespace Feko.UniFlexBox
             set => SetProperty(ref _padding, value);
         }
 
-        public float minWidth => _minimumWidth.Size;
+        public float minWidth =>
+            _dimensionConstraints.Any(dc => dc.Type == ConstraintType.MinimumWidth)
+                ? _dimensionConstraints.First(dc => dc.Type == ConstraintType.MinimumWidth).Value
+                : 0f;
+
         public float preferredWidth { get; private set; }
         public float flexibleWidth { get; private set; }
-        public float minHeight => _minimumHeight.Size;
+
+        public float minHeight =>
+            _dimensionConstraints.Any(dc => dc.Type == ConstraintType.MinimumHeight)
+                ? _dimensionConstraints.First(dc => dc.Type == ConstraintType.MinimumHeight).Value
+                : 0f;
+
         public float preferredHeight { get; private set; }
         public float flexibleHeight { get; private set; }
 
@@ -153,22 +117,24 @@ namespace Feko.UniFlexBox
             UniFlexBoxNative.setAlignItems(_rootYogaNode, (int)_alignItems);
             UniFlexBoxNative.setJustifyContent(_rootYogaNode, (int)_justifyContent);
 
-            this.ApplySizeDimensions(_rootYogaNode, RectTransform);
+            this.ApplySizeDimensions(_rootYogaNode);
 
             UniFlexBoxNative.removeAllChildren(_rootYogaNode);
-            var activeNodes = new HashSet<IntPtr>();
+            foreach (KeyValuePair<RectTransform, IntPtr> childNodePair in _childNodes)
+            {
+                UniFlexBoxNative.freeNode(childNodePair.Value);
+            }
+
+            _childNodes.Clear();
+
             foreach (RectTransform child in _rectChildren)
             {
-                if (!_childNodes.TryGetValue(child, out IntPtr childYogaNode))
-                {
-                    childYogaNode = UniFlexBoxNative.createNewNode();
-                    _childNodes.Add(child, childYogaNode);
-                }
+                IntPtr childYogaNode = UniFlexBoxNative.createNewNode();
 
                 var layoutElement = child.GetComponent<IUniFlexBoxLayoutElement>();
                 if (layoutElement != null)
                 {
-                    layoutElement.ApplySizeDimensions(childYogaNode, child);
+                    layoutElement.ApplySizeDimensions(childYogaNode);
                 }
                 else
                 {
@@ -177,15 +143,7 @@ namespace Feko.UniFlexBox
                 }
 
                 UniFlexBoxNative.addChild(_rootYogaNode, childYogaNode);
-                activeNodes.Add(childYogaNode);
-            }
-
-            List<KeyValuePair<RectTransform, IntPtr>> unusedNodes =
-                _childNodes.Where(entry => !activeNodes.Contains(entry.Value)).ToList();
-            foreach (KeyValuePair<RectTransform, IntPtr> unusedNode in unusedNodes)
-            {
-                UniFlexBoxNative.freeNode(unusedNode.Value);
-                _childNodes.Remove(unusedNode.Key);
+                _childNodes.Add(child, childYogaNode);
             }
 
             UniFlexBoxNative.calculateLayout(_rootYogaNode);

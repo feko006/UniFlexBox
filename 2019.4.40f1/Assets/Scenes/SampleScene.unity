@@ -454,6 +454,7 @@ GameObject:
   - component: {fileID: 758588527}
   - component: {fileID: 758588529}
   - component: {fileID: 758588528}
+  - component: {fileID: 758588530}
   m_Layer: 5
   m_Name: Item1
   m_TagString: Untagged
@@ -477,7 +478,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 33, y: -160}
+  m_AnchoredPosition: {x: 25, y: -150}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0, y: 0}
 --- !u!114 &758588528
@@ -517,6 +518,42 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 758588526}
   m_CullTransparentMesh: 0
+--- !u!114 &758588530
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 758588526}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f6b73a25a09141a43846eeacf07693a1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_IgnoreLayout: 0
+  _dimensionConstraints:
+  - Type: 1
+    Unit: 4
+    Value: 100
+  - Type: 4
+    Unit: 1
+    Value: 0
+  - Type: 3
+    Unit: 4
+    Value: 100
+  _order: 0
+  _flex: 0
+  _flexGrow: 0
+  _flexShrink: 0
+  _flexBasis: 0
+  _alignSelf: 0
+  _wrapWidth: 0
+  _wrapHeight: 0
+  _padding:
+    m_Left: 0
+    m_Right: 0
+    m_Top: 0
+    m_Bottom: 0
 --- !u!1 &802208186
 GameObject:
   m_ObjectHideFlags: 0
@@ -554,7 +591,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 500, y: 219}
+  m_SizeDelta: {x: 400, y: 200}
   m_Pivot: {x: 0, y: 1}
 --- !u!114 &802208188
 MonoBehaviour:
@@ -570,55 +607,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _flexDirection: 2
   _alignItems: 2
-  _justifyContent: 4
-  _minimumWidth:
-    Use: 1
-    Auto: 0
-    Stretch: 0
-    FitContent: 0
-    MaxContent: 0
-    Size: 500
-    Percent: 0
-  _exactWidth:
-    Use: 0
-    Auto: 0
-    Stretch: 0
-    FitContent: 0
-    MaxContent: 0
-    Size: 0
-    Percent: 0
-  _maximumWidth:
-    Use: 0
-    Auto: 0
-    Stretch: 0
-    FitContent: 0
-    MaxContent: 0
-    Size: 0
-    Percent: 0
-  _minimumHeight:
-    Use: 1
-    Auto: 0
-    Stretch: 0
-    FitContent: 0
-    MaxContent: 0
-    Size: 0
-    Percent: 0
-  _exactHeight:
-    Use: 0
-    Auto: 0
-    Stretch: 0
-    FitContent: 0
-    MaxContent: 0
-    Size: 0
-    Percent: 0
-  _maximumHeight:
-    Use: 0
-    Auto: 0
-    Stretch: 0
-    FitContent: 0
-    MaxContent: 0
-    Size: 0
-    Percent: 0
+  _justifyContent: 5
+  _dimensionConstraints:
+  - Type: 1
+    Unit: 4
+    Value: 400
+  - Type: 4
+    Unit: 2
+    Value: 0
   _alignContent: 0
   _padding:
     m_Left: 0
@@ -742,7 +738,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 367, y: -160}
+  m_AnchoredPosition: {x: 275, y: -150}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0, y: 0}
 --- !u!114 &1269950952
@@ -891,8 +887,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 200, y: -219}
-  m_SizeDelta: {x: 100, y: 219}
+  m_AnchoredPosition: {x: 150, y: -200}
+  m_SizeDelta: {x: 100, y: 200}
   m_Pivot: {x: 0, y: 0}
 --- !u!114 &1608962142
 MonoBehaviour:
@@ -944,54 +940,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_IgnoreLayout: 0
-  _minimumWidth:
-    Use: 0
-    Auto: 0
-    Stretch: 0
-    FitContent: 0
-    MaxContent: 0
-    Size: 0
-    Percent: 0
-  _exactWidth:
-    Use: 0
-    Auto: 0
-    Stretch: 0
-    FitContent: 0
-    MaxContent: 0
-    Size: 0
-    Percent: 0
-  _maximumWidth:
-    Use: 0
-    Auto: 0
-    Stretch: 0
-    FitContent: 0
-    MaxContent: 0
-    Size: 0
-    Percent: 0
-  _minimumHeight:
-    Use: 1
-    Auto: 0
-    Stretch: 0
-    FitContent: 0
-    MaxContent: 0
-    Size: 219.2
-    Percent: 0
-  _exactHeight:
-    Use: 0
-    Auto: 0
-    Stretch: 0
-    FitContent: 0
-    MaxContent: 0
-    Size: 0
-    Percent: 0
-  _maximumHeight:
-    Use: 0
-    Auto: 0
-    Stretch: 0
-    FitContent: 0
-    MaxContent: 0
-    Size: 0
-    Percent: 0
+  _dimensionConstraints:
+  - Type: 1
+    Unit: 4
+    Value: 100
+  - Type: 4
+    Unit: 4
+    Value: 200
   _order: 0
   _flex: 0
   _flexGrow: 0

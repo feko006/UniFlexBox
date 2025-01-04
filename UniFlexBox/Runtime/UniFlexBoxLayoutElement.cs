@@ -1,3 +1,4 @@
+using System.Linq;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -16,57 +17,12 @@ namespace Feko.UniFlexBox
         }
 
         [SerializeField]
-        private DimensionProperties _minimumWidth;
+        private DimensionConstraint[] _dimensionConstraints;
 
-        public DimensionProperties MinimumWidth
+        public DimensionConstraint[] DimensionConstraints
         {
-            get => _minimumWidth;
-            set => SetProperty(ref _minimumWidth, value);
-        }
-
-        [SerializeField]
-        private DimensionProperties _exactWidth;
-
-        public DimensionProperties ExactWidth
-        {
-            get => _exactWidth;
-            set => SetProperty(ref _exactWidth, value);
-        }
-
-        [SerializeField]
-        private DimensionProperties _maximumWidth;
-
-        public DimensionProperties MaximumWidth
-        {
-            get => _maximumWidth;
-            set => SetProperty(ref _maximumWidth, value);
-        }
-
-        [SerializeField]
-        private DimensionProperties _minimumHeight;
-
-        public DimensionProperties MinimumHeight
-        {
-            get => _minimumHeight;
-            set => SetProperty(ref _minimumHeight, value);
-        }
-
-        [SerializeField]
-        private DimensionProperties _exactHeight;
-
-        public DimensionProperties ExactHeight
-        {
-            get => _exactHeight;
-            set => SetProperty(ref _exactHeight, value);
-        }
-
-        [SerializeField]
-        private DimensionProperties _maximumHeight;
-
-        public DimensionProperties MaximumHeight
-        {
-            get => _maximumHeight;
-            set => SetProperty(ref _maximumHeight, value);
+            get => _dimensionConstraints;
+            set => SetProperty(ref _dimensionConstraints, value);
         }
 
         [SerializeField]
@@ -154,10 +110,18 @@ namespace Feko.UniFlexBox
             set => SetProperty(ref _padding, value);
         }
 
-        public float minWidth => MinimumWidth.Size;
+        public float minWidth =>
+            _dimensionConstraints.Any(dc => dc.Type == ConstraintType.MinimumWidth)
+                ? _dimensionConstraints.First(dc => dc.Type == ConstraintType.MinimumWidth).Value
+                : 0f;
+
         public float preferredWidth { get; private set; }
         public float flexibleWidth { get; private set; }
-        public float minHeight => MinimumHeight.Size;
+
+        public float minHeight => _dimensionConstraints.Any(dc => dc.Type == ConstraintType.MinimumHeight)
+            ? _dimensionConstraints.First(dc => dc.Type == ConstraintType.MinimumHeight).Value
+            : 0f;
+
         public float preferredHeight { get; private set; }
         public float flexibleHeight { get; private set; }
 
