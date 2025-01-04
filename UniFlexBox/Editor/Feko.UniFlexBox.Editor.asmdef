@@ -1,0 +1,15 @@
+{
+    "name": "Feko.UniFlexBox.Editor",
+    "references": ["GUID:bbb1a21ab42299e4cbebcb111f2a781d"],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

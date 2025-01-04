@@ -1,9 +1,12 @@
+using System.Collections.Generic;
 using UnityEngine.UI;
 
 namespace Feko.UniFlexBox
 {
     public interface IUniFlexBoxLayoutElement : ILayoutElement
     {
-        DimensionConstraint[] DimensionConstraints { get; set; }
+        List<DimensionConstraint> DimensionConstraints { get; set; }
+        void AddConstraint(DimensionConstraint constraint);
+        void RemoveConstraint(DimensionConstraint constraint);
     }
 }

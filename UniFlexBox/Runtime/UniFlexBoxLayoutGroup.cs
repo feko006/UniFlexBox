@@ -38,9 +38,9 @@ namespace Feko.UniFlexBox
         }
 
         [SerializeField]
-        private DimensionConstraint[] _dimensionConstraints;
+        private List<DimensionConstraint> _dimensionConstraints;
 
-        public DimensionConstraint[] DimensionConstraints
+        public List<DimensionConstraint> DimensionConstraints
         {
             get => _dimensionConstraints;
             set => SetProperty(ref _dimensionConstraints, value);
@@ -65,7 +65,7 @@ namespace Feko.UniFlexBox
         }
 
         public float minWidth =>
-            _dimensionConstraints.Any(dc => dc.Type == ConstraintType.MinimumWidth)
+            _dimensionConstraints?.Any(dc => dc.Type == ConstraintType.MinimumWidth) ?? false
                 ? _dimensionConstraints.First(dc => dc.Type == ConstraintType.MinimumWidth).Value
                 : 0f;
 
@@ -73,7 +73,7 @@ namespace Feko.UniFlexBox
         public float flexibleWidth { get; private set; }
 
         public float minHeight =>
-            _dimensionConstraints.Any(dc => dc.Type == ConstraintType.MinimumHeight)
+            _dimensionConstraints?.Any(dc => dc.Type == ConstraintType.MinimumHeight) ?? false
                 ? _dimensionConstraints.First(dc => dc.Type == ConstraintType.MinimumHeight).Value
                 : 0f;
 
@@ -132,7 +132,7 @@ namespace Feko.UniFlexBox
                 IntPtr childYogaNode = UniFlexBoxNative.createNewNode();
 
                 var layoutElement = child.GetComponent<IUniFlexBoxLayoutElement>();
-                if (layoutElement != null)
+                if (layoutElement != null && layoutElement.DimensionConstraints.Any())
                 {
                     layoutElement.ApplySizeDimensions(childYogaNode);
                 }
@@ -251,7 +251,32 @@ namespace Feko.UniFlexBox
         protected override void OnValidate()
         {
             SetDirty();
+            var constraintsSet = new HashSet<ConstraintType>();
+            foreach (DimensionConstraint dimensionConstraint in _dimensionConstraints)
+            {
+                if (constraintsSet.Add(dimensionConstraint.Type))
+                {
+                    continue;
+                }
+
+                Debug.LogWarning(
+                    $"{nameof(DimensionConstraints)} contain multiple elements with the same " +
+                    $"{nameof(DimensionConstraint.Type)}, the constraints are applied in order," +
+                    " so the last one will prevail.",
+                    this);
+                break;
+            }
         }
 #endif
+
+        public void AddConstraint(DimensionConstraint constraint)
+        {
+            UniFlexBoxLayoutElementExtensions.AddConstraint(this, constraint);
+        }
+
+        public void RemoveConstraint(DimensionConstraint constraint)
+        {
+            UniFlexBoxLayoutElementExtensions.RemoveConstraint(this, constraint);
+        }
     }
 }

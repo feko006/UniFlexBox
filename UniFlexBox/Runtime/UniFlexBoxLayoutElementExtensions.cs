@@ -19,6 +19,25 @@ namespace Feko.UniFlexBox
             }
         }
 
+        public static void AddConstraint(
+            this IUniFlexBoxLayoutElement layoutElement,
+            DimensionConstraint constraint)
+        {
+            layoutElement.DimensionConstraints.Add(constraint);
+            layoutElement.DimensionConstraints = layoutElement.DimensionConstraints;
+        }
+
+        public static void RemoveConstraint(
+            this IUniFlexBoxLayoutElement layoutElement,
+            DimensionConstraint constraint)
+        {
+            bool removed = layoutElement.DimensionConstraints.Remove(constraint);
+            if (removed)
+            {
+                layoutElement.DimensionConstraints = layoutElement.DimensionConstraints;
+            }
+        }
+
         private static readonly Action<IntPtr, float>[,] _nativeMethods =
         {
             {

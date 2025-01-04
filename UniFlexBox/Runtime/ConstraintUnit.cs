@@ -6,7 +6,7 @@ namespace Feko.UniFlexBox
         Stretch,
         FitContent,
         MaxContent,
-        Units,
+        Pixels,
         Percent,
     }
 }

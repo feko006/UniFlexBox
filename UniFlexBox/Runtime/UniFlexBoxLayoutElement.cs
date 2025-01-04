@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -17,9 +18,9 @@ namespace Feko.UniFlexBox
         }
 
         [SerializeField]
-        private DimensionConstraint[] _dimensionConstraints;
+        private List<DimensionConstraint> _dimensionConstraints;
 
-        public DimensionConstraint[] DimensionConstraints
+        public List<DimensionConstraint> DimensionConstraints
         {
             get => _dimensionConstraints;
             set => SetProperty(ref _dimensionConstraints, value);
@@ -184,6 +185,16 @@ namespace Feko.UniFlexBox
                 return;
             currentValue = newValue;
             SetDirty();
+        }
+
+        public void AddConstraint(DimensionConstraint constraint)
+        {
+            UniFlexBoxLayoutElementExtensions.AddConstraint(this, constraint);
+        }
+
+        public void RemoveConstraint(DimensionConstraint constraint)
+        {
+            UniFlexBoxLayoutElementExtensions.RemoveConstraint(this, constraint);
         }
     }
 }
