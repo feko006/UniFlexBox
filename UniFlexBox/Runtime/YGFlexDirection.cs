@@ -1,6 +1,6 @@
 namespace Feko.UniFlexBox
 {
-    public enum FlexDirection
+    public enum YGFlexDirection
     {
         Column,
         ColumnReverse,

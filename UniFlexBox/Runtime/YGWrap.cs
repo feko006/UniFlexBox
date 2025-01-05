@@ -1,6 +1,6 @@
 namespace Feko.UniFlexBox
 {
-    public enum FlexWrap
+    public enum YGWrap
     {
         NoWrap,
         Wrap,

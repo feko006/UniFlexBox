@@ -11,30 +11,111 @@ namespace Feko.UniFlexBox
     public class UniFlexBoxLayoutGroup : UIBehaviour, IUniFlexBoxLayoutElement, ILayoutGroup
     {
         [SerializeField]
-        private FlexDirection _flexDirection;
+        private YGDirection _direction;
 
-        public FlexDirection FlexDirection
+        public YGDirection Direction
+        {
+            get => _direction;
+            set => SetProperty(ref _direction, value);
+        }
+
+        [SerializeField]
+        private YGFlexDirection _flexDirection;
+
+        public YGFlexDirection FlexDirection
         {
             get => _flexDirection;
             set => SetProperty(ref _flexDirection, value);
         }
 
         [SerializeField]
-        private AlignItems _alignItems;
+        private YGJustify _justifyContent;
 
-        public AlignItems AlignItems
+        public YGJustify JustifyContent
+        {
+            get => _justifyContent;
+            set => SetProperty(ref _justifyContent, value);
+        }
+
+        [SerializeField]
+        private YGAlign _alignContent;
+
+        public YGAlign AlignContent
+        {
+            get => _alignContent;
+            set => SetProperty(ref _alignContent, value);
+        }
+
+        [SerializeField]
+        private YGAlign _alignItems;
+
+        public YGAlign AlignItems
         {
             get => _alignItems;
             set => SetProperty(ref _alignItems, value);
         }
 
         [SerializeField]
-        private JustifyContent _justifyContent;
+        private YGAlign _alignSelf;
 
-        public JustifyContent JustifyContent
+        public YGAlign AlignSelf
         {
-            get => _justifyContent;
-            set => SetProperty(ref _justifyContent, value);
+            get => _alignSelf;
+            set => SetProperty(ref _alignSelf, value);
+        }
+
+        [SerializeField]
+        private YGWrap _flexWrap;
+
+        public YGWrap FlexWrap
+        {
+            get => _flexWrap;
+            set => SetProperty(ref _flexWrap, value);
+        }
+
+        [SerializeField]
+        private YGOverflow _overflow;
+
+        public YGOverflow Overflow
+        {
+            get => _overflow;
+            set => SetProperty(ref _overflow, value);
+        }
+
+        [SerializeField]
+        private YGDisplay _display;
+
+        public YGDisplay Display
+        {
+            get => _display;
+            set => SetProperty(ref _display, value);
+        }
+
+        [SerializeField]
+        private float _flex;
+
+        public float Flex
+        {
+            get => _flex;
+            set => SetProperty(ref _flex, value);
+        }
+
+        [SerializeField]
+        private float _flexGrow;
+
+        public float FlexGrow
+        {
+            get => _flexGrow;
+            set => SetProperty(ref _flexGrow, value);
+        }
+
+        [SerializeField]
+        private float _flexShrink;
+
+        public float FlexShrink
+        {
+            get => _flexShrink;
+            set => SetProperty(ref _flexShrink, value);
         }
 
         [SerializeField]
@@ -44,15 +125,6 @@ namespace Feko.UniFlexBox
         {
             get => _dimensionConstraints;
             set => SetProperty(ref _dimensionConstraints, value);
-        }
-
-        [SerializeField]
-        private AlignContent _alignContent;
-
-        public AlignContent AlignContent
-        {
-            get => _alignContent;
-            set => SetProperty(ref _alignContent, value);
         }
 
         [SerializeField]
@@ -113,11 +185,14 @@ namespace Feko.UniFlexBox
                 _rootYogaNode = UniFlexBoxNative.createNewNode();
             }
 
-            UniFlexBoxNative.setFlexDirection(_rootYogaNode, (int)_flexDirection);
-            UniFlexBoxNative.setAlignItems(_rootYogaNode, (int)_alignItems);
-            UniFlexBoxNative.setJustifyContent(_rootYogaNode, (int)_justifyContent);
+            UniFlexBoxNative.setNodeDirection(_rootYogaNode, (int)_direction);
+            UniFlexBoxNative.setNodeFlexDirection(_rootYogaNode, (int)_flexDirection);
+            UniFlexBoxNative.setNodeJustifyContent(_rootYogaNode, (int)_justifyContent);
+            UniFlexBoxNative.setNodeAlignContent(_rootYogaNode, (int)_alignContent);
+            UniFlexBoxNative.setNodeAlignItems(_rootYogaNode, (int)_alignItems);
+            UniFlexBoxNative.setNodeFlexWrap(_rootYogaNode, (int)_flexWrap);
 
-            this.ApplySizeDimensions(_rootYogaNode);
+            this.ApplyLayoutElementToNode(_rootYogaNode);
 
             UniFlexBoxNative.removeAllChildren(_rootYogaNode);
             foreach (KeyValuePair<RectTransform, IntPtr> childNodePair in _childNodes)
@@ -131,10 +206,39 @@ namespace Feko.UniFlexBox
             {
                 IntPtr childYogaNode = UniFlexBoxNative.createNewNode();
 
-                var layoutElement = child.GetComponent<IUniFlexBoxLayoutElement>();
-                if (layoutElement != null && layoutElement.DimensionConstraints.Any())
+                ILayoutElement layoutElement = GetLayoutElementComponent(child);
+                if (layoutElement is IUniFlexBoxLayoutElement ufbLayoutElement
+                    && ufbLayoutElement.DimensionConstraints.Any())
                 {
-                    layoutElement.ApplySizeDimensions(childYogaNode);
+                    ufbLayoutElement.ApplyLayoutElementToNode(childYogaNode);
+                }
+                else if (layoutElement != null)
+                {
+                    UniFlexBoxNative.setNodeMinWidth(childYogaNode, layoutElement.minWidth);
+                    UniFlexBoxNative.setNodeMinHeight(childYogaNode, layoutElement.minHeight);
+                    UniFlexBoxNative.setNodeWidth(childYogaNode,
+                        layoutElement.preferredWidth > 0
+                            ? layoutElement.preferredWidth
+                            : child.rect.width);
+
+                    UniFlexBoxNative.setNodeHeight(childYogaNode,
+                        layoutElement.preferredHeight > 0
+                            ? layoutElement.preferredWidth
+                            : child.rect.height);
+
+                    if (layoutElement.flexibleWidth > 0
+                        && _flexDirection != YGFlexDirection.Column
+                        && _flexDirection != YGFlexDirection.ColumnReverse)
+                    {
+                        UniFlexBoxNative.setNodeFlex(childYogaNode, layoutElement.flexibleWidth);
+                    }
+
+                    if (layoutElement.flexibleHeight > 0
+                        && _flexDirection != YGFlexDirection.Row
+                        && _flexDirection != YGFlexDirection.RowReverse)
+                    {
+                        UniFlexBoxNative.setNodeFlex(childYogaNode, layoutElement.flexibleHeight);
+                    }
                 }
                 else
                 {
@@ -153,6 +257,22 @@ namespace Feko.UniFlexBox
             {
                 ApplyNodeValuesToLayoutElement(_childNodes[child], child);
             }
+        }
+
+        private static ILayoutElement GetLayoutElementComponent(RectTransform child)
+        {
+            List<ILayoutElement> layoutElements =
+                child.GetComponents<ILayoutElement>()
+                    .Where(le => (le as Behaviour)?.isActiveAndEnabled ?? false)
+                    .OrderByDescending(le => le.layoutPriority)
+                    .ToList();
+
+            if (layoutElements.Any(le => le is IUniFlexBoxLayoutElement))
+            {
+                return layoutElements.First(le => le is IUniFlexBoxLayoutElement);
+            }
+
+            return layoutElements.FirstOrDefault();
         }
 
         private void ApplyNodeValuesToLayoutGroup()
@@ -277,6 +397,11 @@ namespace Feko.UniFlexBox
         public void RemoveConstraint(DimensionConstraint constraint)
         {
             UniFlexBoxLayoutElementExtensions.RemoveConstraint(this, constraint);
+        }
+
+        public void RemoveConstraint(int index)
+        {
+            UniFlexBoxLayoutElementExtensions.RemoveConstraint(this, index);
         }
     }
 }

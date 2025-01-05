@@ -1,13 +1,10 @@
 namespace Feko.UniFlexBox
 {
-    public enum AlignItems
+    public enum YGJustify
     {
-        Auto,
         FlexStart,
         Center,
         FlexEnd,
-        Stretch,
-        Baseline,
         SpaceBetween,
         SpaceAround,
         SpaceEvenly

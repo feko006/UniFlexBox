@@ -139,15 +139,52 @@ namespace Feko.UniFlexBox
         public static extern void setNodeMaxHeightStretch(IntPtr node);
         
         #endregion MaxHeight
+        
+        #region Style
 
         [DllImport("uniflexbox-native")]
-        public static extern void setFlexDirection(IntPtr node, int flexDirection);
+        public static extern void copyNodeStyle(IntPtr dstNode, IntPtr srcNode);
 
         [DllImport("uniflexbox-native")]
-        public static extern void setAlignItems(IntPtr node, int alignItems);
+        public static extern void setNodeDirection(IntPtr node, int direction);
 
         [DllImport("uniflexbox-native")]
-        public static extern void setJustifyContent(IntPtr rootYogaNode, int justifyContent);
+        public static extern void setNodeFlexDirection(IntPtr node, int flexDirection);
+
+        [DllImport("uniflexbox-native")]
+        public static extern void setNodeJustifyContent(IntPtr rootYogaNode, int justifyContent);
+
+        [DllImport("uniflexbox-native")]
+        public static extern void setNodeAlignContent(IntPtr node, int alignContent);
+
+        [DllImport("uniflexbox-native")]
+        public static extern void setNodeAlignItems(IntPtr node, int alignItems);
+        
+        [DllImport("uniflexbox-native")]
+        public static extern void setNodeAlignSelf(IntPtr node, int alignSelf);
+
+        [DllImport("uniflexbox-native")]
+        public static extern void setNodePositionType(IntPtr node, int positionType);
+
+        [DllImport("uniflexbox-native")]
+        public static extern void setNodeFlexWrap(IntPtr node, int flexWrap);
+
+        [DllImport("uniflexbox-native")]
+        public static extern void setNodeOverflow(IntPtr node, int overflow);
+
+        [DllImport("uniflexbox-native")]
+        public static extern void setNodeDisplay(IntPtr node, int display);
+
+        [DllImport("uniflexbox-native")]
+        public static extern void setNodeFlex(IntPtr node, float flex);
+
+        [DllImport("uniflexbox-native")]
+        public static extern void setNodeFlexGrow(IntPtr node, float flexGrow);
+
+        [DllImport("uniflexbox-native")]
+        public static extern void setNodeFlexShrink(IntPtr node, float flexShrink);
+
+        #endregion Style
 
         [DllImport("uniflexbox-native")]
         public static extern float getNodeLeft(IntPtr node);

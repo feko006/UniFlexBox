@@ -74,9 +74,25 @@ extern "C" YOGA_API void setNodeMaxHeightStretch(YGNodeRef node);
 
 #pragma endregion MaxHeight
 
-extern "C" YOGA_API void setFlexDirection(YGNodeRef node, int flexDirection);
-extern "C" YOGA_API void setAlignItems(YGNodeRef node, int alignItems);
-extern "C" YOGA_API void setJustifyContent(YGNodeRef node, int justifyContent);
+#pragma region Style
+
+extern "C" YOGA_API void copyNodeStyle(YGNodeRef dstNode, YGNodeRef srcNode);
+extern "C" YOGA_API void setNodeDirection(YGNodeRef node, int direction);
+extern "C" YOGA_API void setNodeFlexDirection(YGNodeRef node, int flexDirection);
+extern "C" YOGA_API void setNodeJustifyContent(YGNodeRef node, int justifyContent);
+extern "C" YOGA_API void setNodeAlignContent(YGNodeRef node, int alignContent);
+extern "C" YOGA_API void setNodeAlignItems(YGNodeRef node, int alignItems);
+extern "C" YOGA_API void setNodeAlignSelf(YGNodeRef node, int alignSelf);
+extern "C" YOGA_API void setNodePositionType(YGNodeRef node, int positionType);
+extern "C" YOGA_API void setNodeFlexWrap(YGNodeRef node, int flexWrap);
+extern "C" YOGA_API void setNodeOverflow(YGNodeRef node, int overflow);
+extern "C" YOGA_API void setNodeDisplay(YGNodeRef node, int display);
+extern "C" YOGA_API void setNodeFlex(YGNodeRef node, float flex);
+extern "C" YOGA_API void setNodeFlexGrow(YGNodeRef node, float flexGrow);
+extern "C" YOGA_API void setNodeFlexShrink(YGNodeRef node, float flexShrink);
+
+#pragma endregion Style
+
 extern "C" YOGA_API float getNodeLeft(YGNodeRef node);
 extern "C" YOGA_API float getNodeTop(YGNodeRef node);
 extern "C" YOGA_API float getNodeWidth(YGNodeRef node);

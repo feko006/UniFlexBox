@@ -4,10 +4,15 @@ namespace Feko.UniFlexBox
 {
     public static class UniFlexBoxLayoutElementExtensions
     {
-        public static void ApplySizeDimensions(
+        public static void ApplyLayoutElementToNode(
             this IUniFlexBoxLayoutElement layoutElement,
             IntPtr node)
         {
+            UniFlexBoxNative.setNodeAlignSelf(node, (int)layoutElement.AlignSelf);
+            UniFlexBoxNative.setNodeFlex(node, layoutElement.Flex);
+            UniFlexBoxNative.setNodeFlexGrow(node, layoutElement.FlexGrow);
+            UniFlexBoxNative.setNodeFlexShrink(node, layoutElement.FlexShrink);
+
             if (layoutElement.DimensionConstraints == null)
             {
                 return;
@@ -36,6 +41,14 @@ namespace Feko.UniFlexBox
             {
                 layoutElement.DimensionConstraints = layoutElement.DimensionConstraints;
             }
+        }
+
+        public static void RemoveConstraint(
+            this IUniFlexBoxLayoutElement layoutElement,
+            int index)
+        {
+            layoutElement.DimensionConstraints.RemoveAt(index);
+            layoutElement.DimensionConstraints = layoutElement.DimensionConstraints;
         }
 
         private static readonly Action<IntPtr, float>[,] _nativeMethods =

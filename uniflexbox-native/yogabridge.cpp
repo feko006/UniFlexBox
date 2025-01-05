@@ -210,20 +210,79 @@ void setNodeMaxHeightStretch(const YGNodeRef node)
 
 #pragma endregion MaxHeight
 
-void setFlexDirection(const YGNodeRef node, const int flexDirection)
+#pragma region Style
+
+void copyNodeStyle(const YGNodeRef dstNode, const YGNodeRef srcNode)
+{
+    YGNodeCopyStyle(dstNode, srcNode);
+}
+
+void setNodeDirection(const YGNodeRef node, const int direction)
+{
+    YGNodeStyleSetDirection(node, static_cast<YGDirection>(direction));
+}
+
+void setNodeFlexDirection(const YGNodeRef node, const int flexDirection)
 {
     YGNodeStyleSetFlexDirection(node, static_cast<YGFlexDirection>(flexDirection));
 }
 
-void setAlignItems(const YGNodeRef node, const int alignItems)
+void setNodeJustifyContent(const YGNodeRef node, const int justifyContent)
+{
+    YGNodeStyleSetJustifyContent(node, static_cast<YGJustify>(justifyContent));
+}
+
+void setNodeAlignContent(const YGNodeRef node, const int alignContent)
+{
+    YGNodeStyleSetAlignContent(node, static_cast<YGAlign>(alignContent));
+}
+
+void setNodeAlignItems(const YGNodeRef node, const int alignItems)
 {
     YGNodeStyleSetAlignItems(node, static_cast<YGAlign>(alignItems));
 }
 
-void setJustifyContent(const YGNodeRef node, const int justifyContent)
+void setNodeAlignSelf(const YGNodeRef node, const int alignSelf)
 {
-    YGNodeStyleSetJustifyContent(node, static_cast<YGJustify>(justifyContent));
+    YGNodeStyleSetAlignSelf(node, static_cast<YGAlign>(alignSelf));
 }
+
+void setNodePositionType(const YGNodeRef node, const int positionType)
+{
+    YGNodeStyleSetPositionType(node, static_cast<YGPositionType>(positionType));
+}
+
+void setNodeFlexWrap(const YGNodeRef node, const int flexWrap)
+{
+    YGNodeStyleSetFlexWrap(node, static_cast<YGWrap>(flexWrap));
+}
+
+void setNodeOverflow(const YGNodeRef node, const int overflow)
+{
+    YGNodeStyleSetOverflow(node, static_cast<YGOverflow>(overflow));
+}
+
+void setNodeDisplay(const YGNodeRef node, const int display)
+{
+    YGNodeStyleSetDisplay(node, static_cast<YGDisplay>(display));
+}
+
+void setNodeFlex(const YGNodeRef node, const float flex)
+{
+    YGNodeStyleSetFlex(node, flex);
+}
+
+void setNodeFlexGrow(const YGNodeRef node, const float flexGrow)
+{
+    YGNodeStyleSetFlexGrow(node, flexGrow);
+}
+
+void setNodeFlexShrink(const YGNodeRef node, const float flexShrink)
+{
+    YGNodeStyleSetFlexShrink(node, flexShrink);
+}
+
+#pragma endregion Style
 
 float getNodeLeft(const YGNodeRef node)
 {

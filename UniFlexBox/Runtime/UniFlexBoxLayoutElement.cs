@@ -9,7 +9,7 @@ namespace Feko.UniFlexBox
     public class UniFlexBoxLayoutElement : UIBehaviour, IUniFlexBoxLayoutElement, ILayoutIgnorer
     {
         [SerializeField]
-        private bool m_IgnoreLayout = false;
+        private bool m_IgnoreLayout;
 
         public bool ignoreLayout
         {
@@ -18,30 +18,12 @@ namespace Feko.UniFlexBox
         }
 
         [SerializeField]
-        private List<DimensionConstraint> _dimensionConstraints;
+        private float _flex;
 
-        public List<DimensionConstraint> DimensionConstraints
-        {
-            get => _dimensionConstraints;
-            set => SetProperty(ref _dimensionConstraints, value);
-        }
-
-        [SerializeField]
-        public int _order;
-
-        public int Order
-        {
-            get => _order;
-            set => _order = value;
-        }
-
-        [SerializeField]
-        public Flex _flex;
-
-        public Flex Flex
+        public float Flex
         {
             get => _flex;
-            set => _flex = value;
+            set => SetProperty(ref _flex, value);
         }
 
         [SerializeField]
@@ -62,6 +44,33 @@ namespace Feko.UniFlexBox
             set => _flexShrink = value;
         }
 
+        [SerializeField]
+        private YGAlign _alignSelf;
+
+        public YGAlign AlignSelf
+        {
+            get => _alignSelf;
+            set => SetProperty(ref _alignSelf, value);
+        }
+
+        [SerializeField]
+        private List<DimensionConstraint> _dimensionConstraints;
+
+        public List<DimensionConstraint> DimensionConstraints
+        {
+            get => _dimensionConstraints;
+            set => SetProperty(ref _dimensionConstraints, value);
+        }
+
+        [SerializeField]
+        public int _order;
+
+        public int Order
+        {
+            get => _order;
+            set => _order = value;
+        }
+
         [Tooltip("The base size in the dimension the flex layout is oriented.")]
         [SerializeField]
         public float _flexBasis;
@@ -70,15 +79,6 @@ namespace Feko.UniFlexBox
         {
             get => _flexBasis;
             set => _flexBasis = value;
-        }
-
-        [SerializeField]
-        public AlignSelf _alignSelf;
-
-        public AlignSelf AlignSelf
-        {
-            get => _alignSelf;
-            set => _alignSelf = value;
         }
 
         [Header("Constraints")]
@@ -195,6 +195,11 @@ namespace Feko.UniFlexBox
         public void RemoveConstraint(DimensionConstraint constraint)
         {
             UniFlexBoxLayoutElementExtensions.RemoveConstraint(this, constraint);
+        }
+
+        public void RemoveConstraint(int index)
+        {
+            UniFlexBoxLayoutElementExtensions.RemoveConstraint(this, index);
         }
     }
 }
