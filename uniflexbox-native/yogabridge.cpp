@@ -6,6 +6,11 @@ YGNodeRef createNewNode()
     return YGNodeNew();
 }
 
+void resetNode(const YGNodeRef node)
+{
+    YGNodeReset(node);
+}
+
 void freeNode(const YGNodeRef node)
 {
     YGNodeFree(node);
@@ -209,6 +214,64 @@ void setNodeMaxHeightStretch(const YGNodeRef node)
 }
 
 #pragma endregion MaxHeight
+
+#pragma region FlexBasis
+
+void setNodeFlexBasis(const YGNodeRef node, const float width)
+{
+    YGNodeStyleSetFlexBasis(node, width >= 0 ? width : YGUndefined);
+}
+
+void setNodeFlexBasisPercent(const YGNodeRef node, const float width)
+{
+    YGNodeStyleSetFlexBasisPercent(node, width >= 0 ? width : YGUndefined);
+}
+
+void setNodeFlexBasisAuto(const YGNodeRef node)
+{
+    YGNodeStyleSetFlexBasisAuto(node);
+}
+
+void setNodeFlexBasisMaxContent(const YGNodeRef node)
+{
+    YGNodeStyleSetFlexBasisMaxContent(node);
+}
+
+void setNodeFlexBasisFitContent(const YGNodeRef node)
+{
+    YGNodeStyleSetFlexBasisFitContent(node);
+}
+
+void setNodeFlexBasisStretch(const YGNodeRef node)
+{
+    YGNodeStyleSetFlexBasisStretch(node);
+}
+
+#pragma endregion FlexBasis
+
+#pragma region Padding & Gap
+
+void setNodePadding(const YGNodeRef node, const YGEdge edge, const float padding)
+{
+    YGNodeStyleSetPadding(node, edge, padding >= 0 ? padding : YGUndefined);
+}
+
+void setNodePaddingPercent(const YGNodeRef node, const YGEdge edge, const float padding)
+{
+    YGNodeStyleSetPaddingPercent(node, edge, padding >= 0 ? padding : YGUndefined);
+}
+
+void setNodeGap(const YGNodeRef node, const YGGutter gutter, const float gapLength)
+{
+    YGNodeStyleSetGap(node, gutter, gapLength >= 0 ? gapLength : YGUndefined);
+}
+
+void setNodeGapPercent(const YGNodeRef node, const YGGutter gutter, const float gapLength)
+{
+    YGNodeStyleSetGapPercent(node, gutter, gapLength >= 0 ? gapLength : YGUndefined);
+}
+
+#pragma endregion Padding & Gap
 
 #pragma region Style
 

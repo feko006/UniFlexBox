@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine.UI;
 
@@ -16,8 +17,9 @@ namespace Feko.UniFlexBox
         /// </summary>
         List<DimensionConstraint> DimensionConstraints { get; set; }
 
-        void AddConstraint(DimensionConstraint constraint);
-        void RemoveConstraint(DimensionConstraint constraint);
-        void RemoveConstraint(int index);
+        void AddDimensionConstraint(DimensionConstraint constraint);
+        void RemoveDimensionConstraint(DimensionConstraint constraint);
+        void RemoveDimensionConstraints(Predicate<DimensionConstraint> predicate);
+        void RemoveDimensionConstraint(int index);
     }
 }

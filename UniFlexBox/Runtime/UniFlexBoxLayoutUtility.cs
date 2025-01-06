@@ -2,7 +2,7 @@ using System;
 
 namespace Feko.UniFlexBox
 {
-    public static class UniFlexBoxLayoutElementExtensions
+    public static class UniFlexBoxLayoutUtility
     {
         public static void ApplyLayoutElementToNode(
             this IUniFlexBoxLayoutElement layoutElement,
@@ -13,14 +13,59 @@ namespace Feko.UniFlexBox
             UniFlexBoxNative.setNodeFlexGrow(node, layoutElement.FlexGrow);
             UniFlexBoxNative.setNodeFlexShrink(node, layoutElement.FlexShrink);
 
-            if (layoutElement.DimensionConstraints == null)
+            if (layoutElement.DimensionConstraints != null)
+            {
+                foreach (DimensionConstraint constraint in layoutElement.DimensionConstraints)
+                {
+                    _nativeMethods[(int)constraint.Type, (int)constraint.Unit](node, constraint.Value);
+                }
+            }
+        }
+
+        public static void ApplyPaddingConstraintsToNode(
+            this IUniFlexBoxLayoutGroup layoutGroup,
+            IntPtr node)
+        {
+            if (layoutGroup.PaddingConstraints == null)
             {
                 return;
             }
 
-            foreach (DimensionConstraint constraint in layoutElement.DimensionConstraints)
+            foreach (PaddingConstraint paddingConstraint in layoutGroup.PaddingConstraints)
             {
-                _nativeMethods[(int)constraint.Type, (int)constraint.Unit](node, constraint.Value);
+                if (paddingConstraint.Unit == ConstraintUnit.Pixels)
+                {
+                    UniFlexBoxNative.setNodePadding(node, (int)paddingConstraint.Edge, paddingConstraint.Value);
+                }
+                else if (paddingConstraint.Unit == ConstraintUnit.Percent)
+                {
+                    UniFlexBoxNative.setNodePaddingPercent(
+                        node,
+                        (int)paddingConstraint.Edge,
+                        paddingConstraint.Value);
+                }
+            }
+        }
+
+        public static void ApplyGapConstraintsToNode(
+            this IUniFlexBoxLayoutGroup layoutGroup,
+            IntPtr node)
+        {
+            if (layoutGroup.GapConstraints == null)
+            {
+                return;
+            }
+
+            foreach (GapConstraint gapConstraint in layoutGroup.GapConstraints)
+            {
+                if (gapConstraint.Unit == ConstraintUnit.Pixels)
+                {
+                    UniFlexBoxNative.setNodeGap(node, (int)gapConstraint.Gutter, gapConstraint.Value);
+                }
+                else if (gapConstraint.Unit == ConstraintUnit.Percent)
+                {
+                    UniFlexBoxNative.setNodeGapPercent(node, (int)gapConstraint.Gutter, gapConstraint.Value);
+                }
             }
         }
 
@@ -38,6 +83,17 @@ namespace Feko.UniFlexBox
         {
             bool removed = layoutElement.DimensionConstraints.Remove(constraint);
             if (removed)
+            {
+                layoutElement.DimensionConstraints = layoutElement.DimensionConstraints;
+            }
+        }
+
+        public static void RemoveConstraints(
+            this IUniFlexBoxLayoutElement layoutElement,
+            Predicate<DimensionConstraint> predicate)
+        {
+            int numberOfRemovedConstraints = layoutElement.DimensionConstraints.RemoveAll(predicate);
+            if (numberOfRemovedConstraints > 0)
             {
                 layoutElement.DimensionConstraints = layoutElement.DimensionConstraints;
             }
@@ -142,6 +198,21 @@ namespace Feko.UniFlexBox
                 UniFlexBoxNative.setNodeMaxHeight,
                 // Percent
                 UniFlexBoxNative.setNodeMaxHeightPercent,
+            },
+            {
+                // Flex Basis
+                // Auto
+                (node, value) => UniFlexBoxNative.setNodeFlexBasisAuto(node),
+                // Stretch
+                (node, value) => UniFlexBoxNative.setNodeFlexBasisStretch(node),
+                // FitContent
+                (node, value) => UniFlexBoxNative.setNodeFlexBasisFitContent(node),
+                // MaxContent
+                (node, value) => UniFlexBoxNative.setNodeFlexBasisMaxContent(node),
+                // Units
+                UniFlexBoxNative.setNodeFlexBasis,
+                // Percent
+                UniFlexBoxNative.setNodeFlexBasisPercent,
             },
         };
     }

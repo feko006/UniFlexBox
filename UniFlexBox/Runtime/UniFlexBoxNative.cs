@@ -9,10 +9,13 @@ namespace Feko.UniFlexBox
         public static extern IntPtr createNewNode();
 
         [DllImport("uniflexbox-native")]
-        public static extern void addChild(IntPtr node, IntPtr child);
+        public static extern void resetNode(IntPtr node);
 
         [DllImport("uniflexbox-native")]
         public static extern void freeNode(IntPtr node);
+
+        [DllImport("uniflexbox-native")]
+        public static extern void addChild(IntPtr node, IntPtr child);
 
         [DllImport("uniflexbox-native")]
         public static extern void removeAllChildren(IntPtr node);
@@ -62,7 +65,7 @@ namespace Feko.UniFlexBox
         #endregion MinWidth
 
         #region MaxWidth
-        
+
         [DllImport("uniflexbox-native")]
         public static extern void setNodeMaxWidth(IntPtr node, float width);
 
@@ -77,7 +80,7 @@ namespace Feko.UniFlexBox
 
         [DllImport("uniflexbox-native")]
         public static extern void setNodeMaxWidthStretch(IntPtr node);
-        
+
         #endregion MaxWidth
 
         #region Height
@@ -103,7 +106,7 @@ namespace Feko.UniFlexBox
         #endregion Height
 
         #region MinHeight
-        
+
         [DllImport("uniflexbox-native")]
         public static extern void setNodeMinHeight(IntPtr node, float height);
 
@@ -118,11 +121,11 @@ namespace Feko.UniFlexBox
 
         [DllImport("uniflexbox-native")]
         public static extern void setNodeMinHeightStretch(IntPtr node);
-        
+
         #endregion MinHeight
 
         #region MaxHeight
-        
+
         [DllImport("uniflexbox-native")]
         public static extern void setNodeMaxHeight(IntPtr node, float height);
 
@@ -137,9 +140,47 @@ namespace Feko.UniFlexBox
 
         [DllImport("uniflexbox-native")]
         public static extern void setNodeMaxHeightStretch(IntPtr node);
-        
+
         #endregion MaxHeight
-        
+
+        #region FlexBasis
+
+        [DllImport("uniflexbox-native")]
+        public static extern void setNodeFlexBasis(IntPtr node, float width);
+
+        [DllImport("uniflexbox-native")]
+        public static extern void setNodeFlexBasisPercent(IntPtr node, float width);
+
+        [DllImport("uniflexbox-native")]
+        public static extern void setNodeFlexBasisAuto(IntPtr node);
+
+        [DllImport("uniflexbox-native")]
+        public static extern void setNodeFlexBasisMaxContent(IntPtr node);
+
+        [DllImport("uniflexbox-native")]
+        public static extern void setNodeFlexBasisFitContent(IntPtr node);
+
+        [DllImport("uniflexbox-native")]
+        public static extern void setNodeFlexBasisStretch(IntPtr node);
+
+        #endregion FlexBasis
+
+        #region Padding & Gap
+
+        [DllImport("uniflexbox-native")]
+        public static extern void setNodePadding(IntPtr node, int edge, float padding);
+
+        [DllImport("uniflexbox-native")]
+        public static extern void setNodePaddingPercent(IntPtr node, int edge, float padding);
+
+        [DllImport("uniflexbox-native")]
+        public static extern void setNodeGap(IntPtr node, int gutter, float gapLength);
+
+        [DllImport("uniflexbox-native")]
+        public static extern void setNodeGapPercent(IntPtr node, int gutter, float gapLength);
+
+        #endregion Padding & Gap
+
         #region Style
 
         [DllImport("uniflexbox-native")]
@@ -159,7 +200,7 @@ namespace Feko.UniFlexBox
 
         [DllImport("uniflexbox-native")]
         public static extern void setNodeAlignItems(IntPtr node, int alignItems);
-        
+
         [DllImport("uniflexbox-native")]
         public static extern void setNodeAlignSelf(IntPtr node, int alignSelf);
 

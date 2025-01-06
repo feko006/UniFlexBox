@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -54,6 +55,9 @@ namespace Feko.UniFlexBox
         }
 
         [SerializeField]
+        private DimensionConstraint _constraint;
+
+        [SerializeField]
         private List<DimensionConstraint> _dimensionConstraints;
 
         public List<DimensionConstraint> DimensionConstraints
@@ -100,15 +104,6 @@ namespace Feko.UniFlexBox
         {
             get => _wrapHeight;
             set => SetProperty(ref _wrapHeight, value);
-        }
-
-        [SerializeField]
-        private RectOffset _padding;
-
-        public RectOffset Padding
-        {
-            get => _padding;
-            set => SetProperty(ref _padding, value);
         }
 
         public float minWidth =>
@@ -187,19 +182,24 @@ namespace Feko.UniFlexBox
             SetDirty();
         }
 
-        public void AddConstraint(DimensionConstraint constraint)
+        public void AddDimensionConstraint(DimensionConstraint constraint)
         {
-            UniFlexBoxLayoutElementExtensions.AddConstraint(this, constraint);
+            UniFlexBoxLayoutUtility.AddConstraint(this, constraint);
         }
 
-        public void RemoveConstraint(DimensionConstraint constraint)
+        public void RemoveDimensionConstraint(DimensionConstraint constraint)
         {
-            UniFlexBoxLayoutElementExtensions.RemoveConstraint(this, constraint);
+            UniFlexBoxLayoutUtility.RemoveConstraint(this, constraint);
         }
 
-        public void RemoveConstraint(int index)
+        public void RemoveDimensionConstraints(Predicate<DimensionConstraint> predicate)
         {
-            UniFlexBoxLayoutElementExtensions.RemoveConstraint(this, index);
+            UniFlexBoxLayoutUtility.RemoveConstraints(this, predicate);
+        }
+
+        public void RemoveDimensionConstraint(int index)
+        {
+            UniFlexBoxLayoutUtility.RemoveConstraint(this, index);
         }
     }
 }

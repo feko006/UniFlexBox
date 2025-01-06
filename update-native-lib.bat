@@ -19,6 +19,5 @@ msbuild uniflexbox-native.sln /t:Build /p:Configuration=Release /p:Platform=x64
 
 echo Copying DLL to project...
 copy x64\Release\uniflexbox-native.dll ..\UniFlexBox\Runtime\libs\uniflexbox-native.dll
-copy x64\Release\uniflexbox-native.pdb ..\UniFlexBox\Runtime\libs\uniflexbox-native.pdb
 
 echo Done!

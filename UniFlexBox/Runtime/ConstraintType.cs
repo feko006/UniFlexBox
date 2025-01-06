@@ -8,5 +8,6 @@ namespace Feko.UniFlexBox
         MinimumHeight,
         ExactHeight,
         MaximumHeight,
+        FlexBasis
     }
 }

@@ -21,7 +21,7 @@ namespace Feko.UniFlexBox
             var labelRect = new Rect(position.x, position.y, position.width, lineHeight);
             if (matches.Count > 0)
             {
-                EditorGUI.LabelField(labelRect, $"Constraint {matches[0].Groups[1].Value}");
+                EditorGUI.LabelField(labelRect, $"Dimension Constraint {matches[0].Groups[1].Value}");
             }
             else
             {
@@ -92,15 +92,8 @@ namespace Feko.UniFlexBox
 
             var unit = (ConstraintUnit)unitProperty.enumValueIndex;
 
-            // Calculate height dynamically based on visible fields
-            float height = EditorGUIUtility.singleLineHeight * 2
-                           + EditorGUIUtility.standardVerticalSpacing;
-
-            if (property.propertyPath.Contains("Array"))
-            {
-                height += EditorGUIUtility.singleLineHeight
-                          + EditorGUIUtility.standardVerticalSpacing;
-            }
+            float height = EditorGUIUtility.singleLineHeight * 3
+                           + EditorGUIUtility.standardVerticalSpacing * 2;
 
             if (ShouldValueBeShown(unit))
             {
