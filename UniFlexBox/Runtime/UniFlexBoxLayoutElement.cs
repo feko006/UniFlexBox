@@ -1,7 +1,5 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using Unity.Collections;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -11,12 +9,21 @@ namespace Feko.UniFlexBox
     public class UniFlexBoxLayoutElement : UIBehaviour, IUniFlexBoxLayoutElement, ILayoutIgnorer
     {
         [SerializeField]
-        private bool m_IgnoreLayout;
+        private bool _ignoreLayout;
 
         public bool ignoreLayout
         {
-            get => m_IgnoreLayout;
-            set => SetProperty(ref m_IgnoreLayout, value);
+            get => _ignoreLayout;
+            set => SetProperty(ref _ignoreLayout, value);
+        }
+
+        [SerializeField]
+        private int _layoutPriority;
+
+        public int layoutPriority
+        {
+            get => _layoutPriority;
+            set => SetProperty(ref _layoutPriority, value);
         }
 
         [SerializeField]
@@ -78,24 +85,15 @@ namespace Feko.UniFlexBox
                 ? _dimensionConstraints.First(dc => dc.Type == ConstraintType.MinimumWidth).Value
                 : 0f;
 
-        public float preferredWidth { get; private set; }
+        public float preferredWidth { get; internal set; }
         public float flexibleWidth { get; private set; }
 
         public float minHeight => _dimensionConstraints.Any(dc => dc.Type == ConstraintType.MinimumHeight)
             ? _dimensionConstraints.First(dc => dc.Type == ConstraintType.MinimumHeight).Value
             : 0f;
 
-        public float preferredHeight { get; private set; }
+        public float preferredHeight { get; internal set; }
         public float flexibleHeight { get; private set; }
-
-        [SerializeField]
-        private int _layoutPriority;
-
-        public int layoutPriority
-        {
-            get => _layoutPriority;
-            set => SetProperty(ref _layoutPriority, value);
-        }
 
         public virtual void CalculateLayoutInputHorizontal() { }
 
@@ -145,7 +143,7 @@ namespace Feko.UniFlexBox
         protected override void OnValidate()
         {
             SetDirty();
-            UniFlexBoxLayoutUtility.ValidateDimensionConstraints(_dimensionConstraints, this);
+            UniFlexBoxLayoutUtility.ValidateDimensionConstraints(_dimensionConstraints, gameObject);
         }
 
 #endif
