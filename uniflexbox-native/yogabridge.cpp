@@ -98,12 +98,12 @@ void setNodeMinWidthStretch(const YGNodeRef node)
 
 void setNodeMaxWidth(const YGNodeRef node, const float width)
 {
-    YGNodeStyleSetMaxWidth(node, width >= 0 ? width : YGUndefined);
+    YGNodeStyleSetMaxWidth(node, width > 0 ? width : YGUndefined);
 }
 
 void setNodeMaxWidthPercent(const YGNodeRef node, const float width)
 {
-    YGNodeStyleSetMaxWidthPercent(node, width >= 0 ? width : YGUndefined);
+    YGNodeStyleSetMaxWidthPercent(node, width > 0 ? width : YGUndefined);
 }
 
 void setNodeMaxWidthMaxContent(const YGNodeRef node)
@@ -190,12 +190,12 @@ void setNodeMinHeightStretch(const YGNodeRef node)
 
 void setNodeMaxHeight(const YGNodeRef node, const float height)
 {
-    YGNodeStyleSetMaxHeight(node, height >= 0 ? height : YGUndefined);
+    YGNodeStyleSetMaxHeight(node, height > 0 ? height : YGUndefined);
 }
 
 void setNodeMaxHeightPercent(const YGNodeRef node, const float height)
 {
-    YGNodeStyleSetMaxHeightPercent(node, height >= 0 ? height : YGUndefined);
+    YGNodeStyleSetMaxHeightPercent(node, height > 0 ? height : YGUndefined);
 }
 
 void setNodeMaxHeightMaxContent(const YGNodeRef node)
@@ -343,6 +343,11 @@ void setNodeFlexGrow(const YGNodeRef node, const float flexGrow)
 void setNodeFlexShrink(const YGNodeRef node, const float flexShrink)
 {
     YGNodeStyleSetFlexShrink(node, flexShrink);
+}
+
+void setNodeAspectRatio(const YGNodeRef node, const float aspectRatio)
+{
+    YGNodeStyleSetAspectRatio(node, aspectRatio > 0 ? aspectRatio : YGUndefined);
 }
 
 #pragma endregion Style

@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine.UI;
 
@@ -10,16 +9,13 @@ namespace Feko.UniFlexBox
         float Flex { get; set; }
         float FlexGrow { get; set; }
         float FlexShrink { get; set; }
+        float AspectRatio { get; set; }
 
         /// <summary>
-        /// If you add elements to this list, make sure to re-assign it so that the changes are propagated properly.
-        /// Prefer to use the AddConstraint and RemoveConstraint methods.
+        /// Make sure to call <see cref="NotifyDimensionConstraintsChanged"/> after modifying the constraints list.
         /// </summary>
         List<DimensionConstraint> DimensionConstraints { get; set; }
 
-        void AddDimensionConstraint(DimensionConstraint constraint);
-        void RemoveDimensionConstraint(DimensionConstraint constraint);
-        void RemoveDimensionConstraints(Predicate<DimensionConstraint> predicate);
-        void RemoveDimensionConstraint(int index);
+        void NotifyDimensionConstraintsChanged();
     }
 }

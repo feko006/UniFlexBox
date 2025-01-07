@@ -12,6 +12,7 @@ namespace Feko.UniFlexBox
             UniFlexBoxNative.setNodeFlex(node, layoutElement.Flex);
             UniFlexBoxNative.setNodeFlexGrow(node, layoutElement.FlexGrow);
             UniFlexBoxNative.setNodeFlexShrink(node, layoutElement.FlexShrink);
+            UniFlexBoxNative.setNodeAspectRatio(node, layoutElement.AspectRatio);
 
             if (layoutElement.DimensionConstraints != null)
             {
@@ -67,44 +68,6 @@ namespace Feko.UniFlexBox
                     UniFlexBoxNative.setNodeGapPercent(node, (int)gapConstraint.Gutter, gapConstraint.Value);
                 }
             }
-        }
-
-        public static void AddConstraint(
-            this IUniFlexBoxLayoutElement layoutElement,
-            DimensionConstraint constraint)
-        {
-            layoutElement.DimensionConstraints.Add(constraint);
-            layoutElement.DimensionConstraints = layoutElement.DimensionConstraints;
-        }
-
-        public static void RemoveConstraint(
-            this IUniFlexBoxLayoutElement layoutElement,
-            DimensionConstraint constraint)
-        {
-            bool removed = layoutElement.DimensionConstraints.Remove(constraint);
-            if (removed)
-            {
-                layoutElement.DimensionConstraints = layoutElement.DimensionConstraints;
-            }
-        }
-
-        public static void RemoveConstraints(
-            this IUniFlexBoxLayoutElement layoutElement,
-            Predicate<DimensionConstraint> predicate)
-        {
-            int numberOfRemovedConstraints = layoutElement.DimensionConstraints.RemoveAll(predicate);
-            if (numberOfRemovedConstraints > 0)
-            {
-                layoutElement.DimensionConstraints = layoutElement.DimensionConstraints;
-            }
-        }
-
-        public static void RemoveConstraint(
-            this IUniFlexBoxLayoutElement layoutElement,
-            int index)
-        {
-            layoutElement.DimensionConstraints.RemoveAt(index);
-            layoutElement.DimensionConstraints = layoutElement.DimensionConstraints;
         }
 
         private static readonly Action<IntPtr, float>[,] _nativeMethods =

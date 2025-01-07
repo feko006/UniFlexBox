@@ -112,6 +112,7 @@ YOGA_API void setNodeDisplay(YGNodeRef node, int display);
 YOGA_API void setNodeFlex(YGNodeRef node, float flex);
 YOGA_API void setNodeFlexGrow(YGNodeRef node, float flexGrow);
 YOGA_API void setNodeFlexShrink(YGNodeRef node, float flexShrink);
+YOGA_API void setNodeAspectRatio(YGNodeRef node, float aspectRatio);
 
 #pragma endregion Style
 

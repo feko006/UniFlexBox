@@ -119,6 +119,15 @@ namespace Feko.UniFlexBox
         }
 
         [SerializeField]
+        private float _aspectRatio;
+
+        public float AspectRatio
+        {
+            get => _aspectRatio;
+            set => SetProperty(ref _aspectRatio, value);
+        }
+
+        [SerializeField]
         private List<DimensionConstraint> _dimensionConstraints;
 
         public List<DimensionConstraint> DimensionConstraints
@@ -139,11 +148,13 @@ namespace Feko.UniFlexBox
         [SerializeField]
         private List<GapConstraint> _gapConstraints;
 
+
         public List<GapConstraint> GapConstraints
         {
             get => _gapConstraints;
             set => SetProperty(ref _gapConstraints, value);
         }
+
 
         public float minWidth =>
             _dimensionConstraints?.Any(dc => dc.Type == ConstraintType.MinimumWidth) ?? false
@@ -399,84 +410,18 @@ namespace Feko.UniFlexBox
             }
         }
 #endif
-
-        public void AddDimensionConstraint(DimensionConstraint constraint)
+        public void NotifyDimensionConstraintsChanged()
         {
-            UniFlexBoxLayoutUtility.AddConstraint(this, constraint);
+            DimensionConstraints = DimensionConstraints;
         }
 
-        public void RemoveDimensionConstraint(DimensionConstraint constraint)
+        public void NotifyPaddingConstraintsChanged()
         {
-            UniFlexBoxLayoutUtility.RemoveConstraint(this, constraint);
-        }
-
-        public void RemoveDimensionConstraints(Predicate<DimensionConstraint> predicate)
-        {
-            UniFlexBoxLayoutUtility.RemoveConstraints(this, predicate);
-        }
-
-        public void RemoveDimensionConstraint(int index)
-        {
-            UniFlexBoxLayoutUtility.RemoveConstraint(this, index);
-        }
-
-        public void AddPaddingConstraint(PaddingConstraint constraint)
-        {
-            PaddingConstraints.Add(constraint);
             PaddingConstraints = PaddingConstraints;
         }
 
-        public void RemovePaddingConstraint(PaddingConstraint constraint)
+        public void NotifyGapConstraintsChanged()
         {
-            bool removed = PaddingConstraints.Remove(constraint);
-            if (removed)
-            {
-                PaddingConstraints = PaddingConstraints;
-            }
-        }
-
-        public void RemovePaddingConstraints(Predicate<PaddingConstraint> predicate)
-        {
-            int numberOfRemovedConstraints = PaddingConstraints.RemoveAll(predicate);
-            if (numberOfRemovedConstraints > 0)
-            {
-                PaddingConstraints = PaddingConstraints;
-            }
-        }
-
-        public void RemovePaddingConstraint(int index)
-        {
-            PaddingConstraints.RemoveAt(index);
-            PaddingConstraints = PaddingConstraints;
-        }
-
-        public void AddGapConstraint(GapConstraint constraint)
-        {
-            GapConstraints.Add(constraint);
-            GapConstraints = GapConstraints;
-        }
-
-        public void RemoveGapConstraint(GapConstraint constraint)
-        {
-            bool removed = GapConstraints.Remove(constraint);
-            if (removed)
-            {
-                GapConstraints = GapConstraints;
-            }
-        }
-
-        public void RemoveGapConstraints(Predicate<GapConstraint> predicate)
-        {
-            int numberOfRemovedConstraints = GapConstraints.RemoveAll(predicate);
-            if (numberOfRemovedConstraints > 0)
-            {
-                GapConstraints = GapConstraints;
-            }
-        }
-
-        public void RemoveGapConstraint(int index)
-        {
-            GapConstraints.RemoveAt(index);
             GapConstraints = GapConstraints;
         }
     }

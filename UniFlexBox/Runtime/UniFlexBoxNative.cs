@@ -225,6 +225,9 @@ namespace Feko.UniFlexBox
         [DllImport("uniflexbox-native")]
         public static extern void setNodeFlexShrink(IntPtr node, float flexShrink);
 
+        [DllImport("uniflexbox-native")]
+        public static extern void setNodeAspectRatio(IntPtr node, float aspectRatio);
+
         #endregion Style
 
         [DllImport("uniflexbox-native")]

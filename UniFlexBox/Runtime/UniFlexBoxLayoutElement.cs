@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -43,6 +42,15 @@ namespace Feko.UniFlexBox
         {
             get => _flexShrink;
             set => _flexShrink = value;
+        }
+
+        [SerializeField]
+        private float _aspectRatio;
+
+        public float AspectRatio
+        {
+            get => _aspectRatio;
+            set => SetProperty(ref _aspectRatio, value);
         }
 
         [SerializeField]
@@ -182,24 +190,9 @@ namespace Feko.UniFlexBox
             SetDirty();
         }
 
-        public void AddDimensionConstraint(DimensionConstraint constraint)
+        public void NotifyDimensionConstraintsChanged()
         {
-            UniFlexBoxLayoutUtility.AddConstraint(this, constraint);
-        }
-
-        public void RemoveDimensionConstraint(DimensionConstraint constraint)
-        {
-            UniFlexBoxLayoutUtility.RemoveConstraint(this, constraint);
-        }
-
-        public void RemoveDimensionConstraints(Predicate<DimensionConstraint> predicate)
-        {
-            UniFlexBoxLayoutUtility.RemoveConstraints(this, predicate);
-        }
-
-        public void RemoveDimensionConstraint(int index)
-        {
-            UniFlexBoxLayoutUtility.RemoveConstraint(this, index);
+            DimensionConstraints = DimensionConstraints;
         }
     }
 }
