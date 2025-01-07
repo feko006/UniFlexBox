@@ -1,5 +1,7 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.Collections;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -63,55 +65,12 @@ namespace Feko.UniFlexBox
         }
 
         [SerializeField]
-        private DimensionConstraint _constraint;
-
-        [SerializeField]
         private List<DimensionConstraint> _dimensionConstraints;
 
         public List<DimensionConstraint> DimensionConstraints
         {
             get => _dimensionConstraints;
             set => SetProperty(ref _dimensionConstraints, value);
-        }
-
-        [SerializeField]
-        public int _order;
-
-        public int Order
-        {
-            get => _order;
-            set => _order = value;
-        }
-
-        [Tooltip("The base size in the dimension the flex layout is oriented.")]
-        [SerializeField]
-        public float _flexBasis;
-
-        public float FlexBasis
-        {
-            get => _flexBasis;
-            set => _flexBasis = value;
-        }
-
-        [Header("Constraints")]
-        [Tooltip("If defined, overrides the rest of the width constraints.")]
-        [SerializeField]
-        private bool _wrapWidth;
-
-        public bool WrapWidth
-        {
-            get => _wrapWidth;
-            set => SetProperty(ref _wrapWidth, value);
-        }
-
-        [Tooltip("If defined, overrides the rest of the width constraints.")]
-        [SerializeField]
-        private bool _wrapHeight;
-
-        public bool WrapHeight
-        {
-            get => _wrapHeight;
-            set => SetProperty(ref _wrapHeight, value);
         }
 
         public float minWidth =>
@@ -129,7 +88,14 @@ namespace Feko.UniFlexBox
         public float preferredHeight { get; private set; }
         public float flexibleHeight { get; private set; }
 
-        public int layoutPriority { get; private set; }
+        [SerializeField]
+        private int _layoutPriority;
+
+        public int layoutPriority
+        {
+            get => _layoutPriority;
+            set => SetProperty(ref _layoutPriority, value);
+        }
 
         public virtual void CalculateLayoutInputHorizontal() { }
 
@@ -179,6 +145,7 @@ namespace Feko.UniFlexBox
         protected override void OnValidate()
         {
             SetDirty();
+            UniFlexBoxLayoutUtility.ValidateDimensionConstraints(_dimensionConstraints, this);
         }
 
 #endif

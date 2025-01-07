@@ -11,9 +11,9 @@ void resetNode(const YGNodeRef node)
     YGNodeReset(node);
 }
 
-void freeNode(const YGNodeRef node)
+void freeNodeRecursive(const YGNodeRef node)
 {
-    YGNodeFree(node);
+    YGNodeFreeRecursive(node);
 }
 
 void addChild(const YGNodeRef node, const YGNodeRef child)

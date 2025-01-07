@@ -9,7 +9,7 @@
 extern "C" {
 YOGA_API YGNodeRef createNewNode();
 YOGA_API void resetNode(YGNodeRef node);
-YOGA_API void freeNode(YGNodeRef node);
+YOGA_API void freeNodeRecursive(YGNodeRef node);
 YOGA_API void addChild(YGNodeRef node, YGNodeRef child);
 YOGA_API void removeAllChildren(YGNodeRef node);
 YOGA_API void calculateLayout(YGNodeRef node);

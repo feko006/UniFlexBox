@@ -172,7 +172,14 @@ namespace Feko.UniFlexBox
         public float preferredHeight { get; private set; }
         public float flexibleHeight { get; private set; }
 
-        public int layoutPriority { get; private set; }
+        [SerializeField]
+        private int _layoutPriority;
+
+        public int layoutPriority
+        {
+            get => _layoutPriority;
+            set => SetProperty(ref _layoutPriority, value);
+        }
 
         private readonly List<RectTransform> _rectChildren = new List<RectTransform>();
 
@@ -194,16 +201,17 @@ namespace Feko.UniFlexBox
 
         private DrivenRectTransformTracker _tracker;
         private IntPtr _rootYogaNode;
-        private readonly Dictionary<RectTransform, IntPtr> _childNodes = new Dictionary<RectTransform, IntPtr>();
 
         public void CalculateLayoutInputHorizontal()
         {
             UpdateChildren();
             _tracker.Clear();
-            if (_rootYogaNode == IntPtr.Zero)
+            if (_rootYogaNode != IntPtr.Zero)
             {
-                _rootYogaNode = UniFlexBoxNative.createNewNode();
+                UniFlexBoxNative.freeNodeRecursive(_rootYogaNode);
             }
+
+            _rootYogaNode = UniFlexBoxNative.createNewNode();
 
             UniFlexBoxNative.setNodeDirection(_rootYogaNode, (int)_direction);
             UniFlexBoxNative.setNodeFlexDirection(_rootYogaNode, (int)_flexDirection);
@@ -212,18 +220,11 @@ namespace Feko.UniFlexBox
             UniFlexBoxNative.setNodeAlignItems(_rootYogaNode, (int)_alignItems);
             UniFlexBoxNative.setNodeFlexWrap(_rootYogaNode, (int)_flexWrap);
 
-            this.ApplyLayoutElementToNode(_rootYogaNode);
+            this.ApplyLayoutElementToNode(_rootYogaNode, RectTransform);
             this.ApplyPaddingConstraintsToNode(_rootYogaNode);
             this.ApplyGapConstraintsToNode(_rootYogaNode);
 
-            UniFlexBoxNative.removeAllChildren(_rootYogaNode);
-            foreach (KeyValuePair<RectTransform, IntPtr> childNodePair in _childNodes)
-            {
-                UniFlexBoxNative.freeNode(childNodePair.Value);
-            }
-
-            _childNodes.Clear();
-
+            var childNodes = new Dictionary<RectTransform, IntPtr>();
             foreach (RectTransform child in _rectChildren)
             {
                 IntPtr childYogaNode = UniFlexBoxNative.createNewNode();
@@ -232,18 +233,20 @@ namespace Feko.UniFlexBox
                 if (layoutElement is IUniFlexBoxLayoutElement ufbLayoutElement
                     && ufbLayoutElement.DimensionConstraints.Any())
                 {
-                    ufbLayoutElement.ApplyLayoutElementToNode(childYogaNode);
+                    ufbLayoutElement.ApplyLayoutElementToNode(childYogaNode, child);
                 }
                 else if (layoutElement != null)
                 {
                     UniFlexBoxNative.setNodeMinWidth(childYogaNode, layoutElement.minWidth);
                     UniFlexBoxNative.setNodeMinHeight(childYogaNode, layoutElement.minHeight);
-                    UniFlexBoxNative.setNodeWidth(childYogaNode,
+                    UniFlexBoxNative.setNodeWidth(
+                        childYogaNode,
                         layoutElement.preferredWidth > 0
                             ? layoutElement.preferredWidth
                             : child.rect.width);
 
-                    UniFlexBoxNative.setNodeHeight(childYogaNode,
+                    UniFlexBoxNative.setNodeHeight(
+                        childYogaNode,
                         layoutElement.preferredHeight > 0
                             ? layoutElement.preferredWidth
                             : child.rect.height);
@@ -269,7 +272,7 @@ namespace Feko.UniFlexBox
                 }
 
                 UniFlexBoxNative.addChild(_rootYogaNode, childYogaNode);
-                _childNodes.Add(child, childYogaNode);
+                childNodes.Add(child, childYogaNode);
             }
 
             UniFlexBoxNative.calculateLayout(_rootYogaNode);
@@ -277,7 +280,7 @@ namespace Feko.UniFlexBox
             ApplyNodeValuesToLayoutGroup();
             foreach (RectTransform child in _rectChildren)
             {
-                ApplyNodeValuesToLayoutElement(_childNodes[child], child);
+                ApplyNodeValuesToLayoutElement(childNodes[child], child);
             }
         }
 
@@ -393,22 +396,11 @@ namespace Feko.UniFlexBox
         protected override void OnValidate()
         {
             SetDirty();
-            var constraintsSet = new HashSet<ConstraintType>();
-            foreach (DimensionConstraint dimensionConstraint in _dimensionConstraints)
-            {
-                if (constraintsSet.Add(dimensionConstraint.Type))
-                {
-                    continue;
-                }
-
-                Debug.LogWarning(
-                    $"{nameof(DimensionConstraints)} contain multiple elements with the same " +
-                    $"{nameof(DimensionConstraint.Type)}, the constraints are applied in order," +
-                    " so the last one will prevail.",
-                    this);
-                break;
-            }
+            UniFlexBoxLayoutUtility.ValidateDimensionConstraints(_dimensionConstraints, this);
+            UniFlexBoxLayoutUtility.ValidatePaddingConstraints(_paddingConstraints, this);
+            UniFlexBoxLayoutUtility.ValidateGapConstraints(_gapConstraints, this);
         }
+
 #endif
         public void NotifyDimensionConstraintsChanged()
         {

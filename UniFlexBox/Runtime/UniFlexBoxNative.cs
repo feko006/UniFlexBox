@@ -12,7 +12,7 @@ namespace Feko.UniFlexBox
         public static extern void resetNode(IntPtr node);
 
         [DllImport("uniflexbox-native")]
-        public static extern void freeNode(IntPtr node);
+        public static extern void freeNodeRecursive(IntPtr node);
 
         [DllImport("uniflexbox-native")]
         public static extern void addChild(IntPtr node, IntPtr child);

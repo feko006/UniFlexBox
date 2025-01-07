@@ -1,4 +1,7 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using UnityEngine;
 
 namespace Feko.UniFlexBox
 {
@@ -6,7 +9,8 @@ namespace Feko.UniFlexBox
     {
         public static void ApplyLayoutElementToNode(
             this IUniFlexBoxLayoutElement layoutElement,
-            IntPtr node)
+            IntPtr node,
+            RectTransform rectTransform)
         {
             UniFlexBoxNative.setNodeAlignSelf(node, (int)layoutElement.AlignSelf);
             UniFlexBoxNative.setNodeFlex(node, layoutElement.Flex);
@@ -20,6 +24,50 @@ namespace Feko.UniFlexBox
                 {
                     _nativeMethods[(int)constraint.Type, (int)constraint.Unit](node, constraint.Value);
                 }
+
+                if (!layoutElement.DimensionConstraints.Any(dc =>
+                        dc.Type == ConstraintType.MinimumWidth
+                        || dc.Type == ConstraintType.ExactWidth
+                        || dc.Type == ConstraintType.MaximumWidth
+                        || dc.Type == ConstraintType.FlexBasis))
+                {
+                    UniFlexBoxNative.setNodeWidth(node, rectTransform.rect.width);
+                }
+
+                if (!layoutElement.DimensionConstraints.Any(dc =>
+                        dc.Type == ConstraintType.MinimumHeight
+                        || dc.Type == ConstraintType.ExactHeight
+                        || dc.Type == ConstraintType.MaximumHeight
+                        || dc.Type == ConstraintType.FlexBasis))
+                {
+                    UniFlexBoxNative.setNodeHeight(node, rectTransform.rect.height);
+                }
+            }
+            else
+            {
+                UniFlexBoxNative.setNodeWidth(node, rectTransform.rect.width);
+                UniFlexBoxNative.setNodeHeight(node, rectTransform.rect.height);
+            }
+        }
+
+        public static void ValidateDimensionConstraints(
+            List<DimensionConstraint> dimensionConstraints,
+            UnityEngine.Object context)
+        {
+            var constraintsSet = new HashSet<ConstraintType>();
+            foreach (DimensionConstraint dimensionConstraint in dimensionConstraints)
+            {
+                if (constraintsSet.Add(dimensionConstraint.Type))
+                {
+                    continue;
+                }
+
+                Debug.LogWarning(
+                    $"{nameof(IUniFlexBoxLayoutElement.DimensionConstraints)} contain multiple elements with the same "
+                    + $"{nameof(DimensionConstraint.Type)}, the constraints are applied in order,"
+                    + " so the last one will prevail.",
+                    context);
+                break;
             }
         }
 
@@ -48,6 +96,27 @@ namespace Feko.UniFlexBox
             }
         }
 
+        public static void ValidatePaddingConstraints(
+            List<PaddingConstraint> paddingConstraints,
+            UnityEngine.Object context)
+        {
+            var constraintsSet = new HashSet<YGEdge>();
+            foreach (PaddingConstraint paddingConstraint in paddingConstraints)
+            {
+                if (constraintsSet.Add(paddingConstraint.Edge))
+                {
+                    continue;
+                }
+
+                Debug.LogWarning(
+                    $"{nameof(IUniFlexBoxLayoutGroup.PaddingConstraints)} contain multiple elements with the same "
+                    + $"{nameof(PaddingConstraint.Edge)}, the constraints are applied in order,"
+                    + " so the last one will prevail.",
+                    context);
+                break;
+            }
+        }
+
         public static void ApplyGapConstraintsToNode(
             this IUniFlexBoxLayoutGroup layoutGroup,
             IntPtr node)
@@ -67,6 +136,27 @@ namespace Feko.UniFlexBox
                 {
                     UniFlexBoxNative.setNodeGapPercent(node, (int)gapConstraint.Gutter, gapConstraint.Value);
                 }
+            }
+        }
+
+        public static void ValidateGapConstraints(
+            List<GapConstraint> gapConstraints,
+            UnityEngine.Object context)
+        {
+            var constraintsSet = new HashSet<YGGutter>();
+            foreach (GapConstraint gapConstraint in gapConstraints)
+            {
+                if (constraintsSet.Add(gapConstraint.Gutter))
+                {
+                    continue;
+                }
+
+                Debug.LogWarning(
+                    $"{nameof(IUniFlexBoxLayoutGroup.GapConstraints)} contain multiple elements with the same "
+                    + $"{nameof(GapConstraint.Gutter)}, the constraints are applied in order,"
+                    + " so the last one will prevail.",
+                    context);
+                break;
             }
         }
 
