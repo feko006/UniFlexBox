@@ -215,8 +215,7 @@ namespace Feko.UniFlexBox
                 IntPtr childYogaNode = UniFlexBoxNative.createNewNode();
 
                 ILayoutElement layoutElement = GetLayoutElementComponent(child);
-                if (layoutElement is UniFlexBoxLayoutElement uniFlexBoxLayoutElement
-                    && uniFlexBoxLayoutElement.DimensionConstraints.Any())
+                if (layoutElement is UniFlexBoxLayoutElement uniFlexBoxLayoutElement)
                 {
                     layoutElements[child] = uniFlexBoxLayoutElement;
                     uniFlexBoxLayoutElement.ApplyLayoutElementToNode(childYogaNode, child);
