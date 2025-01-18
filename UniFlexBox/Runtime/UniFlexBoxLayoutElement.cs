@@ -6,6 +6,7 @@ using UnityEngine.UI;
 
 namespace Feko.UniFlexBox
 {
+    [DisallowMultipleComponent]
     public class UniFlexBoxLayoutElement : UIBehaviour, IUniFlexBoxLayoutElement, ILayoutIgnorer
     {
         [SerializeField]

@@ -8,6 +8,7 @@ using UnityEngine.UI;
 
 namespace Feko.UniFlexBox
 {
+    [DisallowMultipleComponent]
     public class UniFlexBoxLayoutGroup : UIBehaviour, IUniFlexBoxLayoutGroup, ILayoutGroup
     {
         [SerializeField]
@@ -18,6 +19,16 @@ namespace Feko.UniFlexBox
             get => _layoutPriority;
             set => SetProperty(ref _layoutPriority, value);
         }
+
+        [SerializeField]
+        private YGAlign _alignContent;
+
+        public YGAlign AlignContent
+        {
+            get => _alignContent;
+            set => SetProperty(ref _alignContent, value);
+        }
+
 
         [SerializeField]
         private YGDirection _direction;
@@ -44,15 +55,6 @@ namespace Feko.UniFlexBox
         {
             get => _justifyContent;
             set => SetProperty(ref _justifyContent, value);
-        }
-
-        [SerializeField]
-        private YGAlign _alignContent;
-
-        public YGAlign AlignContent
-        {
-            get => _alignContent;
-            set => SetProperty(ref _alignContent, value);
         }
 
         [SerializeField]
