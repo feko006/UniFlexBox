@@ -50,13 +50,13 @@ namespace Feko.UniFlexBox
 
             var unit = (ConstraintUnit)unitProperty.enumValueIndex;
 
-            if (unit != ConstraintUnit.Pixels && unit != ConstraintUnit.Percent)
+            if (unit != ConstraintUnit.Points && unit != ConstraintUnit.Percent)
             {
-                unitProperty.enumValueIndex = (int)ConstraintUnit.Pixels; // Default to Pixels
+                unitProperty.enumValueIndex = (int)ConstraintUnit.Points; // Default to Pixels
             }
 
             string[] enumValues = Enum.GetNames(typeof(ConstraintUnit));
-            string[] unitOptions = { ConstraintUnit.Pixels.ToString(), ConstraintUnit.Percent.ToString() };
+            string[] unitOptions = { ConstraintUnit.Points.ToString(), ConstraintUnit.Percent.ToString() };
 
             int selectedIndex = Array.IndexOf(unitOptions, enumValues[unitProperty.enumValueIndex]);
             int newSelectedIndex =

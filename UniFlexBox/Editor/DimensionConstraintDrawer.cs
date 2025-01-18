@@ -55,7 +55,7 @@ namespace Feko.UniFlexBox
             {
                 if (unit == ConstraintUnit.Auto)
                 {
-                    unitProperty.enumValueIndex = (int)ConstraintUnit.Pixels; // Default to Pixels
+                    unitProperty.enumValueIndex = (int)ConstraintUnit.Points; // Default to Pixels
                 }
 
                 // Disable Auto option
@@ -105,7 +105,7 @@ namespace Feko.UniFlexBox
 
         private static bool ShouldValueBeShown(ConstraintUnit unit)
         {
-            return unit == ConstraintUnit.Pixels || unit == ConstraintUnit.Percent;
+            return unit == ConstraintUnit.Points || unit == ConstraintUnit.Percent;
         }
     }
 }
