@@ -54,6 +54,10 @@ namespace Feko.UniFlexBox
             List<DimensionConstraint> dimensionConstraints,
             UnityEngine.Object context)
         {
+            if (dimensionConstraints == null)
+            {
+                return;
+            }
             var constraintsSet = new HashSet<ConstraintType>();
             foreach (DimensionConstraint dimensionConstraint in dimensionConstraints)
             {
@@ -82,7 +86,7 @@ namespace Feko.UniFlexBox
 
             foreach (PaddingConstraint paddingConstraint in layoutGroup.PaddingConstraints)
             {
-                if (paddingConstraint.Unit == ConstraintUnit.Pixels)
+                if (paddingConstraint.Unit == ConstraintUnit.Points)
                 {
                     UniFlexBoxNative.setNodePadding(node, (int)paddingConstraint.Edge, paddingConstraint.Value);
                 }
@@ -128,7 +132,7 @@ namespace Feko.UniFlexBox
 
             foreach (GapConstraint gapConstraint in layoutGroup.GapConstraints)
             {
-                if (gapConstraint.Unit == ConstraintUnit.Pixels)
+                if (gapConstraint.Unit == ConstraintUnit.Points)
                 {
                     UniFlexBoxNative.setNodeGap(node, (int)gapConstraint.Gutter, gapConstraint.Value);
                 }
