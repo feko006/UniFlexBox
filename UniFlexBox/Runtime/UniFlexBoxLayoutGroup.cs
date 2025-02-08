@@ -183,13 +183,46 @@ namespace Feko.UniFlexBox
             }
         }
 
-        private DrivenRectTransformTracker _tracker;
+        private bool IsRootLayoutGroup
+        {
+            get
+            {
+                Transform parent = transform.parent;
+                if (parent == null)
+                {
+                    return true;
+                }
+
+                return transform.parent.GetComponent(typeof(ILayoutGroup)) == null;
+            }
+        }
+
         private IntPtr _rootYogaNode;
+
+        protected override void OnEnable()
+        {
+            base.OnEnable();
+            SetDirty();
+        }
+
+        protected override void OnDisable()
+        {
+            LayoutRebuilder.MarkLayoutForRebuild(RectTransform);
+            base.OnDisable();
+        }
+
+        protected override void OnRectTransformDimensionsChange()
+        {
+            base.OnRectTransformDimensionsChange();
+            if (IsRootLayoutGroup)
+            {
+                SetDirty();
+            }
+        }
 
         public void CalculateLayoutInputHorizontal()
         {
             UpdateChildren();
-            _tracker.Clear();
             if (_rootYogaNode != IntPtr.Zero)
             {
                 UniFlexBoxNative.freeNodeRecursive(_rootYogaNode);
@@ -286,7 +319,8 @@ namespace Feko.UniFlexBox
                 return layoutElements.First(le => le is IUniFlexBoxLayoutElement);
             }
 
-            return layoutElements.FirstOrDefault();
+            return layoutElements.FirstOrDefault(le =>
+                le.minWidth > 0 || le.minHeight > 0 || le.preferredWidth > 0 || le.preferredHeight > 0);
         }
 
         private void ApplyNodeValuesToLayoutGroup()
