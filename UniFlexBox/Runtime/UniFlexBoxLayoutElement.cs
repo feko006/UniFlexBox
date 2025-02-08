@@ -64,9 +64,9 @@ namespace Feko.UniFlexBox
         }
 
         [SerializeField]
-        private YGAlign _alignSelf;
+        private YGAlignItems _alignSelf = YGAlignItems.FlexStart;
 
-        public YGAlign AlignSelf
+        public YGAlignItems AlignSelf
         {
             get => _alignSelf;
             set => SetProperty(ref _alignSelf, value);

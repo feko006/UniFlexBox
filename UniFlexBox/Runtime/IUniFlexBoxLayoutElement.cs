@@ -5,7 +5,7 @@ namespace Feko.UniFlexBox
 {
     public interface IUniFlexBoxLayoutElement : ILayoutElement
     {
-        YGAlign AlignSelf { get; set; }
+        YGAlignItems AlignSelf { get; set; }
         float Flex { get; set; }
         float FlexGrow { get; set; }
         float FlexShrink { get; set; }

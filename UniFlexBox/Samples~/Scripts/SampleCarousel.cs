@@ -12,17 +12,17 @@ namespace Feko.UniFlexBox.Samples
         [SerializeField]
         private Button _next;
 
-        private BaseSample[] _samples;
+        private ISample[] _samples;
         private int _currentSample;
 
         private void Start()
         {
-            _samples = GetComponentsInChildren<BaseSample>();
+            _samples = GetComponentsInChildren<ISample>();
             for (var index = 0; index < _samples.Length; index++)
             {
-                BaseSample baseSample = _samples[index];
+                ISample baseSample = _samples[index];
                 bool isFirstSample = index == 0;
-                baseSample.gameObject.SetActive(isFirstSample);
+                baseSample.SetActive(isFirstSample);
                 if (isFirstSample)
                 {
                     baseSample.StartDemo();
@@ -36,14 +36,14 @@ namespace Feko.UniFlexBox.Samples
         private void ChangeSample(int indexOffset)
         {
             int nextSampleIndex = (_currentSample + indexOffset + _samples.Length) % _samples.Length;
-            _samples[_currentSample].gameObject.SetActive(false);
-            BaseSample nextSample = _samples[nextSampleIndex];
-            nextSample.gameObject.SetActive(true);
+            _samples[_currentSample].SetActive(false);
+            ISample nextSample = _samples[nextSampleIndex];
+            nextSample.SetActive(true);
             StartCoroutine(ChangeSampleCoroutine(nextSample));
             _currentSample = nextSampleIndex;
         }
 
-        private IEnumerator ChangeSampleCoroutine(BaseSample nextSample)
+        private IEnumerator ChangeSampleCoroutine(ISample nextSample)
         {
             yield return null;
             nextSample.StartDemo();

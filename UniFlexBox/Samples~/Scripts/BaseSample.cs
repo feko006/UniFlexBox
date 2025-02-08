@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace Feko.UniFlexBox.Samples
 {
-    public abstract class BaseSample : MonoBehaviour
+    public abstract class BaseSample : MonoBehaviour, ISample
     {
         [SerializeField]
         private RectTransform _progressContainer;
@@ -12,6 +12,12 @@ namespace Feko.UniFlexBox.Samples
 
         private readonly float _stepDelay = 3f;
         private float _elapsedTime;
+
+        public void SetActive(bool active)
+        {
+            gameObject.SetActive(active);
+        }
+
         public abstract void StartDemo();
 
         private void Update()

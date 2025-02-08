@@ -26,7 +26,7 @@ namespace Feko.UniFlexBox.Samples
         {
             SetElapsedTime(0f);
             _layoutGroup.AlignItems = value;
-            _text.text = $"Align Items: {value.ToString()}";
+            _text.text = $"Align Items: {value.ToString()}\n(Align Self on layout elements)";
         }
 
         private YGAlignItems GetNextValue()
