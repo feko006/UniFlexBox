@@ -14,7 +14,7 @@ namespace Feko.UniFlexBox.Samples
 
         public override void StartDemo()
         {
-            SetValue(YGAlign.FlexStart);
+            SetValue(YGAlignItems.FlexStart);
         }
 
         protected override void TriggerUpdate()
@@ -22,17 +22,18 @@ namespace Feko.UniFlexBox.Samples
             SetValue(GetNextValue());
         }
 
-        private void SetValue(YGAlign value)
+        private void SetValue(YGAlignItems value)
         {
             SetElapsedTime(0f);
             _layoutGroup.AlignItems = value;
             _text.text = $"Align Items: {value.ToString()}";
         }
 
-        private YGAlign GetNextValue()
+        private YGAlignItems GetNextValue()
         {
-            var values = Enum.GetValues(typeof(YGAlign)) as YGAlign[];
-            return values[((int)_layoutGroup.AlignItems + 1) % values.Length];
+            var values = Enum.GetValues(typeof(YGAlignItems)) as YGAlignItems[];
+            int index = Array.IndexOf(values, _layoutGroup.AlignItems);
+            return values[(index + 1) % values.Length];
         }
     }
 }

@@ -39,7 +39,7 @@ namespace Feko.UniFlexBox
 
             // Get properties
             SerializedProperty edgeProperty = property.FindPropertyRelative(nameof(PaddingConstraint.Edge));
-            SerializedProperty unitProperty = property.FindPropertyRelative(nameof(PaddingConstraint.Unit));
+            SerializedProperty unitProperty = property.FindPropertyRelative("_unit");
             SerializedProperty valueProperty = property.FindPropertyRelative(nameof(PaddingConstraint.Value));
 
             edgeProperty.enumValueIndex =

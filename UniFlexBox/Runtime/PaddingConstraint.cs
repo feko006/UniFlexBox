@@ -1,4 +1,5 @@
 using System;
+using UnityEngine;
 
 namespace Feko.UniFlexBox
 {
@@ -6,7 +7,33 @@ namespace Feko.UniFlexBox
     public struct PaddingConstraint
     {
         public YGEdge Edge;
-        public ConstraintUnit Unit;
+
+        [SerializeField]
+        private ConstraintUnit _unit;
+
+        public ConstraintUnit Unit
+        {
+            get => _unit;
+            set
+            {
+                if (!EnsureValidValues(value))
+                {
+                    _unit = value;
+                }
+            }
+        }
+
         public float Value;
+
+        private bool EnsureValidValues(ConstraintUnit unit)
+        {
+            if (unit != ConstraintUnit.Points && unit != ConstraintUnit.Percent)
+            {
+                _unit = ConstraintUnit.Points;
+                return true;
+            }
+
+            return false;
+        }
     }
 }

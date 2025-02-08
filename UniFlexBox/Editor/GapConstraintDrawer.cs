@@ -39,7 +39,7 @@ namespace Feko.UniFlexBox
 
             // Get properties
             SerializedProperty gutterProperty = property.FindPropertyRelative(nameof(GapConstraint.Gutter));
-            SerializedProperty unitProperty = property.FindPropertyRelative(nameof(GapConstraint.Unit));
+            SerializedProperty unitProperty = property.FindPropertyRelative("_unit");
             SerializedProperty valueProperty = property.FindPropertyRelative(nameof(GapConstraint.Value));
 
             gutterProperty.enumValueIndex =
@@ -52,7 +52,7 @@ namespace Feko.UniFlexBox
 
             if (unit != ConstraintUnit.Points && unit != ConstraintUnit.Percent)
             {
-                unitProperty.enumValueIndex = (int)ConstraintUnit.Points; // Default to Pixels
+                unitProperty.enumValueIndex = (int)ConstraintUnit.Points; // Default to Points
             }
 
             string[] enumValues = Enum.GetNames(typeof(ConstraintUnit));

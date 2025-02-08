@@ -39,8 +39,8 @@ namespace Feko.UniFlexBox
                 EditorGUIUtility.singleLineHeight);
 
             // Get properties
-            SerializedProperty typeProperty = property.FindPropertyRelative(nameof(DimensionConstraint.Type));
-            SerializedProperty unitProperty = property.FindPropertyRelative(nameof(DimensionConstraint.Unit));
+            SerializedProperty typeProperty = property.FindPropertyRelative("_type");
+            SerializedProperty unitProperty = property.FindPropertyRelative("_unit");
             SerializedProperty valueProperty = property.FindPropertyRelative(nameof(DimensionConstraint.Value));
 
             // Draw ConstraintType dropdown
@@ -55,7 +55,7 @@ namespace Feko.UniFlexBox
             {
                 if (unit == ConstraintUnit.Auto)
                 {
-                    unitProperty.enumValueIndex = (int)ConstraintUnit.Points; // Default to Pixels
+                    unitProperty.enumValueIndex = (int)ConstraintUnit.Points; // Default to Points
                 }
 
                 // Disable Auto option
@@ -88,7 +88,7 @@ namespace Feko.UniFlexBox
 
         public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
         {
-            SerializedProperty unitProperty = property.FindPropertyRelative(nameof(DimensionConstraint.Unit));
+            SerializedProperty unitProperty = property.FindPropertyRelative("_unit");
 
             var unit = (ConstraintUnit)unitProperty.enumValueIndex;
 

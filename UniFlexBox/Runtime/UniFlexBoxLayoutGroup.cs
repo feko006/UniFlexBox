@@ -21,14 +21,22 @@ namespace Feko.UniFlexBox
         }
 
         [SerializeField]
-        private YGAlign _alignContent;
+        private YGAlignContent _alignContent;
 
-        public YGAlign AlignContent
+        public YGAlignContent AlignContent
         {
             get => _alignContent;
             set => SetProperty(ref _alignContent, value);
         }
 
+        [SerializeField]
+        private YGAlignItems _alignItems;
+
+        public YGAlignItems AlignItems
+        {
+            get => _alignItems;
+            set => SetProperty(ref _alignItems, value);
+        }
 
         [SerializeField]
         private YGDirection _direction;
@@ -55,15 +63,6 @@ namespace Feko.UniFlexBox
         {
             get => _justifyContent;
             set => SetProperty(ref _justifyContent, value);
-        }
-
-        [SerializeField]
-        private YGAlign _alignItems;
-
-        public YGAlign AlignItems
-        {
-            get => _alignItems;
-            set => SetProperty(ref _alignItems, value);
         }
 
         [SerializeField]

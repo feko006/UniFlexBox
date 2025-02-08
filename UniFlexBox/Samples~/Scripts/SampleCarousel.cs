@@ -13,7 +13,7 @@ namespace Feko.UniFlexBox.Samples
         private Button _next;
 
         private BaseSample[] _samples;
-        private int _currentSample = 0;
+        private int _currentSample;
 
         private void Start()
         {
