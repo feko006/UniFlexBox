@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "com.feko.uniflexbox": "file:../../UniFlexBox",
     "com.unity.2d.sprite": "1.0.0",
     "com.unity.ide.rider": "3.0.34",
     "com.unity.test-framework": "1.1.33",

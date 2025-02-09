@@ -1,15 +1,26 @@
 {
   "name": "com.feko.uniflexbox",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "displayName": "UniFlexBox",
   "description": "A flexible layout system for Unity.",
   "unity": "2019.4",
   "author": {
     "name": "feko006"
   },
-  "keywords": [ "UI", "layout", "flexbox", "flex" ],
-  "dependencies": { },
-  "samples": [ ],
-  "license": "TBD",
-  "licenseUri": "TBD"
+  "keywords": [
+    "UI",
+    "layout",
+    "flexbox",
+    "flex"
+  ],
+  "dependencies": {},
+  "samples": [
+    {
+      "displayName": "Samples",
+      "description": "A showcase of the layout's more exotic properties, as well as a starting point for some more complex behaviors.",
+      "path": "Samples~"
+    }
+  ],
+  "license": "MIT",
+  "licenseUri": "https://spdx.org/licenses/MIT.html"
 }
