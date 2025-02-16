@@ -4,11 +4,20 @@ Unity's layouts offer limited ways of layouting elements and have fallen behind 
 of setting up UI. For simple applications and games, they work mostly fine, but for complex UIs they can be limiting and
 simply... not enough.
 
-This library uses Facebook's implementation of the [Flexible Box Layout standard](https://www.w3.org/TR/css-flexbox-1/)
-called [Yoga](https://github.com/facebook/yoga). The C implementation is wrapped in Unity so that it plays well with the
-engine's UI scripts, at a minimal cost.
+This lightweight library uses Facebook's implementation of the [Flexible Box Layout standard](https://www.w3.org/TR/css-flexbox-1/) called [Yoga](https://github.com/facebook/yoga). The C implementation is wrapped in Unity so that it plays well with the engine's UI scripts, at a minimal cost.
 
-## Installation
+## But wait, what's Flexbox?
+
+Flexbox is a layout method primarily created for CSS. It allows you to arrange items in rows and columns, but with a looot of options for doing it in a flexible and responsive way.
+
+To get a feel for it, I recommend using one of the many online playgrounds such as:
+- https://flexbox.tech/
+- https://www.flexbox.fun/
+- https://loading.io/flexbox/#editor
+- https://flexplay.netlify.app/
+- https://catchmyfame.github.io/flexboxplayground/
+
+## How to install?
 
 You can install UniFlexBox using any of the following methods (more to come in the future)
 
@@ -22,7 +31,7 @@ You can install UniFlexBox using any of the following methods (more to come in t
    * Download the latest .unitypackage file from the [releases page](https://github.com/feko006/UniFlexBox/releases).
    * Use the following Unity menu option - `Assets -> Import Package -> Custom Package...`
 
-## How to use
+## How to use?
 
 As you would any of the existing Unity layouts.
 
